@@ -8,7 +8,7 @@ const header = () => {
           <div className="container">
             <div className="header-left">
               <div className="header-dropdown">
-              <p>Découvrez les meilleures affaires, chaque jour sur OptiDeals !</p>
+              <p>Découvrez les meilleures affaires, chaque jour sur Amazony !</p>
               </div>
             </div>
             <div className="header-right">
