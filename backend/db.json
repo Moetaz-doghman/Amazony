@@ -1,0 +1,5 @@
+{
+    "mongo" : {
+        "uri" : "mongodb+srv://moetazdoghman:rPC1IZnCTPpmg6N6@amazony.4ehcypc.mongodb.net/?retryWrites=true&w=majority"
+    }
+}
