@@ -8,7 +8,9 @@ const header = () => {
           <div className="container">
             <div className="header-left">
               <div className="header-dropdown">
-              <p>Découvrez les meilleures affaires, chaque jour sur Amazony !</p>
+                <p>
+                  Découvrez les meilleures affaires, chaque jour sur Amazony !
+                </p>
               </div>
             </div>
             <div className="header-right">
@@ -21,8 +23,9 @@ const header = () => {
                       </a>
                     </li>
                     <li>
-                    <a href="mailto:moetaz.doghman@esprit.tn">
-                        <i className="icon-envelope"></i>moetaz.doghman@esprit.tn{" "}
+                      <a href="mailto:moetaz.doghman@esprit.tn">
+                        <i className="icon-envelope"></i>
+                        moetaz.doghman@esprit.tn{" "}
                       </a>
                     </li>
                   </ul>
@@ -35,8 +38,6 @@ const header = () => {
         <div className="header-middle sticky-header">
           <div className="container">
             <div className="header-left">
-              
-
               <a href="index.html" className="logo">
                 <img
                   src="assets/images/logo.png"
@@ -45,7 +46,6 @@ const header = () => {
                   height="25"
                 />
               </a>
-
             </div>
 
             <div className="header-right">
@@ -60,7 +60,7 @@ const header = () => {
                 </a>
                 <form action="#" method="get">
                   <div className="header-search-wrapper">
-                    <label for="q" className="sr-only">
+                    <label htmlFor="q" className="sr-only">
                       Search
                     </label>
                     <input
@@ -74,7 +74,7 @@ const header = () => {
                   </div>
                 </form>
               </div>
-              
+
               <div className="dropdown cart-dropdown">
                 <a
                   href="ddd"

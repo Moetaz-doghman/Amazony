@@ -185,3 +185,40 @@ exports.getAllCategories = async (req, res) => {
     });
   }
 };
+
+// Contrôleur pour afficher toutes les catégories avec le nombre de produits
+exports.getAllCategorie = async (req, res) => {
+  try {
+    // Utilisez la méthode distinct de Mongoose pour récupérer toutes les catégories uniques
+    const categories = await Produit.distinct("categorie");
+
+    // Créez un tableau pour stocker les catégories avec le nombre de produits
+    const categoriesAvecCompte = [];
+
+    // Parcourez chaque catégorie pour compter le nombre de produits
+    for (const categorie of categories) {
+      const count = await Produit.countDocuments({ categorie });
+      categoriesAvecCompte.push({ nom: categorie, nombreDeProduits: count });
+    }
+
+    res.json(categoriesAvecCompte);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des produits :", error);
+    res.status(500).json({
+      message: "Une erreur est survenue lors de la récupération des produits.",
+    });
+  }
+};
+
+// Contrôleur pour afficher tous les produits
+exports.getAllProduit = async (req, res) => {
+  try {
+    const produits = await Produit.find();
+    res.json(produits);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des produits :", error);
+    res.status(500).json({
+      message: "Une erreur est survenue lors de la récupération des produits.",
+    });
+  }
+};
