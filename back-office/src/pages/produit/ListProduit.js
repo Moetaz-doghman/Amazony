@@ -145,11 +145,11 @@ const ListProduit = () => {
 
   const filteredProduits = produits.filter((produit) => {
     const produitTitle = produit.titre.toLowerCase();
-    const produitDescription = produit.description.toLowerCase();
+    const produitMarque = produit.marque.toLowerCase();
     const searchValueLowercase = searchValue.toLowerCase();
 
     const isCategoryMatched = selectedCategory === '' || produit.categorie === selectedCategory;
-    const isSearchMatched = produitTitle.includes(searchValueLowercase) || produitDescription.includes(searchValueLowercase);
+    const isSearchMatched = produitTitle.includes(searchValueLowercase) || produitMarque.includes(searchValueLowercase);
 
     return isCategoryMatched && isSearchMatched;
   });
@@ -200,7 +200,8 @@ const ListProduit = () => {
       <StyledTable>
         <TableHead>
           <TableRow>
-            <StyledTableCell>Description</StyledTableCell>
+            <StyledTableCell>Titre</StyledTableCell>
+            <StyledTableCell>Marque</StyledTableCell>
             <StyledTableCell>Catégorie</StyledTableCell>
             <StyledTableCell>Prix</StyledTableCell>
             <StyledTableCell>Options</StyledTableCell>
@@ -214,7 +215,8 @@ const ListProduit = () => {
           ) : (
             filteredProduits.map((produit) => (
               <TableRow key={produit._id}>
-                <TableCell>{produit.description}</TableCell>
+                <TableCell>{produit.titre}</TableCell>
+                <TableCell>{produit.marque}</TableCell>
                 <TableCell>{produit.categorie}</TableCell>
                 <TableCell>{produit.prix}</TableCell>
                 <TableCell>
