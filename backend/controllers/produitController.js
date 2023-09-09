@@ -178,3 +178,17 @@ exports.updateProduit = async (req, res) => {
     });
   }
 };
+
+// Contrôleur pour afficher tous les categorie
+exports.getAllCategories = async (req, res) => {
+  try {
+    // Utilisez la méthode distinct de Mongoose pour récupérer toutes les catégories uniques
+    const categories = await Produit.distinct("categorie");
+    res.json(categories);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des produits :", error);
+    res.status(500).json({
+      message: "Une erreur est survenue lors de la récupération des produits.",
+    });
+  }
+};
