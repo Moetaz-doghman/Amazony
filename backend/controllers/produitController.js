@@ -29,14 +29,7 @@ exports.addProduit = async (req, res) => {
     } = req.body;
 
     // Vérifier si les champs requis sont fournis
-    if (
-      !titre ||
-      !description ||
-      !quantite ||
-      !prix ||
-      !Array.isArray(couleur) ||
-      !Array.isArray(taille)
-    ) {
+    if (!titre || !description || !quantite || !prix || !categorie) {
       return res
         .status(400)
         .json({ message: "Veuillez fournir tous les champs requis." });

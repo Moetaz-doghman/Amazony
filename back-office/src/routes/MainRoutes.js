@@ -19,14 +19,11 @@ const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
 const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
 const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
 
-// render - gallery
-const GalleryList = Loadable(lazy(() => import('pages/gallery/ListGallery')));
-const AddGallery = Loadable(lazy(() => import('pages/gallery/AddGallery')));
-
 // render - produit
 const ProduitList = Loadable(lazy(() => import('pages/produit/ListProduit')));
 const AddProduit = Loadable(lazy(() => import('pages/produit/AddProduit')));
-
+const ProduitDetail = Loadable(lazy(() => import('pages/produit/DetailProduit')));
+const UpdateProduit = Loadable(lazy(() => import('pages/produit/UpdateProduit')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -42,14 +39,7 @@ const MainRoutes = {
       path: 'color',
       element: <Color />
     },
-    {
-      path: 'gallery-list',
-      element: <GalleryList />
-    },
-    {
-      path: 'add-gallery',
-      element: <AddGallery />
-    },
+
     {
       path: 'produit-list',
       element: <ProduitList />
@@ -58,7 +48,14 @@ const MainRoutes = {
       path: 'add-produit',
       element: <AddProduit />
     },
-
+    {
+      path: 'produits/:produitId',
+      element: <ProduitDetail />
+    },
+    {
+      path: 'produits/edit/:produitId',
+      element: <UpdateProduit />
+    },
     {
       path: 'dashboard',
       children: [

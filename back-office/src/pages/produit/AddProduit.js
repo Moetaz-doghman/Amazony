@@ -57,6 +57,10 @@ const AddProduit = () => {
       errors.prix = '☹︎ Prix est requis';
     }
 
+    if (!values.categorie) {
+      errors.categorie = '☹︎ Categorie est requise';
+    }
+
     // Vous pouvez ajouter des validations supplémentaires pour les autres champs ici
 
     return errors;
@@ -105,7 +109,17 @@ const AddProduit = () => {
   };
 
   const onImageInputChange = (e) => {
+    const selectedImages = event.target.files;
+    const maxImages = 4; // Limite à 4 images
     const uploadedImages = Array.from(e.target.files);
+
+    if (selectedImages.length > maxImages) {
+      // Si plus de 4 images ont été sélectionnées, affichez un message d'erreur ou prenez des mesures appropriées.
+      alert(`Vous ne pouvez sélectionner que jusqu'à ${maxImages} images.`);
+      event.target.value = null; // Réinitialise l'élément input pour permettre de sélectionner à nouveau.
+    } else {
+      // Gérez les images sélectionnées ici, par exemple, en les stockant dans un tableau d'images.
+    }
 
     Promise.all(
       uploadedImages.map((image) => {
@@ -160,6 +174,7 @@ const AddProduit = () => {
               <ErrorMessage name="prix" component={ErrorText} />
 
               <Field name="categorie">{({ field }) => <TextField label="Catégorie" {...field} fullWidth />}</Field>
+              <ErrorMessage name="categorie" component={ErrorText} />
 
               <Field name="marque">{({ field }) => <TextField label="Marque" {...field} fullWidth />}</Field>
 
@@ -191,7 +206,7 @@ const AddProduit = () => {
                 )}
               </Field>
 
-              <input type="file" id="images" name="images" multiple accept="image/*" onChange={onImageInputChange} />
+              <input type="file" id="images" name="images" multiple accept="image/*" onChange={onImageInputChange} required />
 
               <Button type="submit" variant="contained" color="primary">
                 {isLoading ? 'Chargement...' : 'Enregistrer'}
