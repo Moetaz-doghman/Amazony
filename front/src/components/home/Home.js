@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import GridShop from "../gridShop";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useCart } from "../../contexte/CartContext";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true); // État pour le chargement
@@ -9,7 +10,12 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6);
   const [categories, setCategories] = useState([]);
+  const {  addToCart } = useCart(); // Utilisez le hook
 
+  const handleAddToCart = (product) => {
+    // Appeler la fonction addToCart du contexte pour ajouter le produit au panier
+    addToCart(product);
+  };
   useEffect(() => {
     axios
       .get("http://localhost:8080/produit/getAllProduit")
@@ -118,7 +124,7 @@ const Home = () => {
                                   New
                                 </span>
                               )}{" "}
-                               <Link to={`/${product._id}`}>
+                              <Link to={`/${product._id}`}>
                                 <img
                                   src={product.images[0].secure_url}
                                   alt="Product im"
@@ -133,8 +139,8 @@ const Home = () => {
                                 >
                                   <span>add to wishlist</span>
                                 </a>
-                                <Link to={`/${product._id}`}
-                                  
+                                <Link
+                                  to={`/${product._id}`}
                                   className="btn-product-icon btn-quickview"
                                   title="Quick view"
                                 >
@@ -142,18 +148,25 @@ const Home = () => {
                                 </Link>
                               </div>
                               <div className="product-action">
-                                <a href="aaa" className="btn-product btn-cart">
+                                <button
+                                  onClick={() => handleAddToCart(product)}
+                                  className="btn-product btn-cart"
+                                >
                                   <span>add to cart</span>
-                                </a>
+                                </button>
                               </div>
                             </figure>
 
                             <div className="product-body">
                               <div className="product-cat">
-                                <Link to={`/${product._id}`}>{product.categorie}</Link>
+                                <Link to={`/${product._id}`}>
+                                  {product.categorie}
+                                </Link>
                               </div>
                               <h3 className="product-title">
-                              <Link to={`/${product._id}`}>{product.titre}</Link>
+                                <Link to={`/${product._id}`}>
+                                  {product.titre}
+                                </Link>
                               </h3>
                               <div className="product-price">
                                 {product.prix}DT
