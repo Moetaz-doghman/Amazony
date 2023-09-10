@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import GridShop from "../gridShop";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true); // État pour le chargement
@@ -117,14 +118,14 @@ const Home = () => {
                                   New
                                 </span>
                               )}{" "}
-                              <a href="product.html">
+                               <Link to={`/${product._id}`}>
                                 <img
                                   src={product.images[0].secure_url}
                                   alt="Product im"
                                   className="product-image"
                                   style={{ height: "280px", width: "280px" }}
                                 />
-                              </a>
+                              </Link>
                               <div className="product-action-vertical">
                                 <a
                                   href="aaa"
@@ -132,13 +133,13 @@ const Home = () => {
                                 >
                                   <span>add to wishlist</span>
                                 </a>
-                                <a
-                                  href="popup/quickView.html"
+                                <Link to={`/${product._id}`}
+                                  
                                   className="btn-product-icon btn-quickview"
                                   title="Quick view"
                                 >
                                   <span>Quick view</span>
-                                </a>
+                                </Link>
                               </div>
                               <div className="product-action">
                                 <a href="aaa" className="btn-product btn-cart">
@@ -149,10 +150,10 @@ const Home = () => {
 
                             <div className="product-body">
                               <div className="product-cat">
-                                <a href="aaa">{product.categorie}</a>
+                                <Link to={`/${product._id}`}>{product.categorie}</Link>
                               </div>
                               <h3 className="product-title">
-                                <a href="product.html">{product.titre}</a>
+                              <Link to={`/${product._id}`}>{product.titre}</Link>
                               </h3>
                               <div className="product-price">
                                 {product.prix}DT

@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
-import Suggestions from "./Suggestions";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import FullScreenImageModal from "../FullScreenImage/FullScreenImageModal "; // Importez le composant
+import ReactImageZoom from "react-image-zoom"; // Importez ReactImageZoom
 
 const DetailProduit = () => {
   // Utilisez useParams pour obtenir l'ID du produit à partir de l'URL
   const { produitId } = useParams();
+  const [product, setProduct] = useState(null);
+  const [mainImage, setMainImage] = useState(""); // État pour l'image principale
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImageSrc, setModalImageSrc] = useState("");
 
   useEffect(() => {
-    console.log(produitId);
     async function fetchProduct() {
       try {
         const response = await axios.get(
           `http://localhost:8080/produit/getProduitsById/${produitId}`
         );
-        console.log(response.data);
         setProduct(response.data);
+        if (response.data.images.length > 0) {
+          setMainImage(response.data.images[0].secure_url);
+        }
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des détails du produit",
@@ -27,15 +33,23 @@ const DetailProduit = () => {
 
     fetchProduct();
   }, [produitId]);
-  // État pour stocker les données du produit
-  const [product, setProduct] = useState(null);
+
+  // Fonction pour gérer le clic sur une miniature
+  const handleThumbnailClick = (imageUrl) => {
+    setMainImage(imageUrl);
+  };
+  // Gestionnaire d'événements pour ouvrir la modal avec l'image principale
+  const openModal = (imageSrc) => {
+    setModalImageSrc(imageSrc); // Définissez l'URL de l'image à afficher dans la modal
+    setIsModalOpen(true); // Ouvrez la modal
+  };
 
   if (!product) {
     return <div>Loading...</div>; // Vous pouvez afficher un message de chargement
   }
   return (
     <div>
-      <div className="page-content">
+      <div className={`page-content ${isModalOpen ? "modal-opened" : ""}`}>
         <div className="container">
           <div className="product-details-top">
             <div className="row">
@@ -43,44 +57,40 @@ const DetailProduit = () => {
                 <div className="product-gallery product-gallery-vertical">
                   <div className="row">
                     <figure className="product-main-image">
-                      <img
-                        id="product-zoom"
-                        src={product.images[0].secure_url}
-                        data-zoom-image="assets/images/products/single/1-big.jpg"
-                        alt="product "
-                        style={{ height: "458px", width: "458px" }}
+                      <ReactImageZoom
+                        img={mainImage} // Image principale
+                        zoomImage={mainImage} // Image à afficher lors du zoom
+                        width={458} // Largeur de l'image
+                        height={458} // Hauteur de l'image
                       />
 
                       <a
-                        href="dd"
+                        href="#0"
                         id="btn-product-gallery"
                         className="btn-product-gallery"
+                        onClick={() => openModal(mainImage)} // Ouvrez la modal avec l'image principale au clic
                       >
                         <i className="icon-arrows"></i>
                       </a>
                     </figure>
-
                     <div
                       id="product-zoom-gallery"
                       className="product-image-gallery"
                     >
                       {product.images.map((image, index) => (
-                        <a
+                        <p
                           key={index}
-                          className={`product-gallery-item ${
-                            index === 0 ? "active" : ""
-                          }`}
-                          href={image.secure_url}
-                          data-image={image.secure_url}
-                          data-zoom-image={image.secure_url}
+                          className="product-gallery-item "
+                          onClick={() => handleThumbnailClick(image.secure_url)} // Ajoutez ceci
                         >
                           <img
                             src={image.secure_url}
-                            alt={`Product  ${index + 1}`}
+                            alt={`Product ${index + 1}`}
+                            style={{ height: "107px", width: "107px" }}
                           />
-                        </a>
+                        </p>
                       ))}
-                    </div>
+                    </div>{" "}
                   </div>
                 </div>
               </div>
@@ -111,30 +121,30 @@ const DetailProduit = () => {
                   <div className="product-content">
                     <p>{product.description}</p>
                   </div>
-
-                  <div className="details-filter-row details-row-size">
-                    <label>Color:</label>
-                    {product.couleur}
-                  </div>
-
-                  <div className="details-filter-row details-row-size">
-                    <label htmlFor="size">Size:</label>
-                    <div className="select-custom">
-                      <select name="size" id="size" className="form-control">
-                        <option value="#" selected="selected">
-                          Select a size
-                        </option>
-                        <option value="s">Small</option>
-                        <option value="m">Medium</option>
-                        <option value="l">Large</option>
-                        <option value="xl">Extra Large</option>
-                      </select>
+                  {product.couleur.length > 0 && (
+                    <div className="details-filter-row details-row-size">
+                      <label>Color:</label>
+                      {product.couleur.join(", ")}
                     </div>
+                  )}
 
-                    <a href="dd" className="size-guide">
-                      <i className="icon-th-list"></i>size guide
-                    </a>
-                  </div>
+                  {product.taille.length > 0 && (
+                    <div className="details-filter-row details-row-size">
+                      <label htmlFor="size">Size:</label>
+                      <div className="select-custom">
+                        <select name="size" id="size" className="form-control">
+                          <option value="#" defaultValue>
+                            Select a size
+                          </option>
+                          {product.taille.map((taille, index) => (
+                            <option key={index} value={taille}>
+                              {taille}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="details-filter-row details-row-size">
                     <label htmlFor="qty">Qty:</label>
@@ -144,20 +154,21 @@ const DetailProduit = () => {
                         id="qty"
                         className="form-control"
                         value={product.quantite}
-                        min="1"
-                        max="10"
-                        step="1"
-                        data-decimals="0"
-                        required
+                        readOnly
                       />
                     </div>
                   </div>
-
-                  <div className="product-details-action">
-                    <a href="dd" className="btn-product btn-cart">
-                      <span>add to cart</span>
-                    </a>
-                  </div>
+                  {product.quantite === "0" ? (
+                    <div className="product-details-action">
+                      <span>Rupture de stock</span>
+                    </div>
+                  ) : (
+                    <div className="product-details-action">
+                      <a href="dd" className="btn-product btn-cart">
+                        <span>add to cart</span>
+                      </a>
+                    </div>
+                  )}
 
                   <div className="product-details-footer">
                     <div className="product-cat">
@@ -178,26 +189,10 @@ const DetailProduit = () => {
                       <a
                         href="dd"
                         className="social-icon"
-                        title="Twitter"
-                        target="_blank"
-                      >
-                        <i className="icon-twitter"></i>
-                      </a>
-                      <a
-                        href="dd"
-                        className="social-icon"
                         title="Instagram"
                         target="_blank"
                       >
                         <i className="icon-instagram"></i>
-                      </a>
-                      <a
-                        href="dd"
-                        className="social-icon"
-                        title="Pinterest"
-                        target="_blank"
-                      >
-                        <i className="icon-pinterest"></i>
                       </a>
                     </div>
                   </div>
@@ -306,124 +301,13 @@ const DetailProduit = () => {
           </div>
 
           <h2 className="title text-center mb-4">You May Also Like</h2>
-
-          <div
-            className="owl-carousel owl-simple carousel-equal-height carousel-with-shadow"
-            data-toggle="owl"
-            data-owl-options='{
-                            "nav": false, 
-                            "dots": true,
-                            "margin": 20,
-                            "loop": false,
-                            "responsive": {
-                                "0": {
-                                    "items":1
-                                },
-                                "480": {
-                                    "items":2
-                                },
-                                "768": {
-                                    "items":3
-                                },
-                                "992": {
-                                    "items":4
-                                },
-                                "1200": {
-                                    "items":4,
-                                    "nav": true,
-                                    "dots": false
-                                }
-                            }
-                        }'
-          >
-            <div className="product product-7 text-center">
-              <figure className="product-media">
-                <span className="product-label label-new">New</span>
-                <a href="product.html">
-                  <img
-                    src="assets/images/products/product-4.jpg"
-                    alt="Product dd"
-                    className="product-image"
-                  />
-                </a>
-
-                <div className="product-action-vertical">
-                  <a
-                    href="dd"
-                    className="btn-product-icon btn-wishlist btn-expandable"
-                  >
-                    <span>add to wishlist</span>
-                  </a>
-                  <a
-                    href="popup/quickView.html"
-                    className="btn-product-icon btn-quickview"
-                    title="Quick view"
-                  >
-                    <span>Quick view</span>
-                  </a>
-                  <a
-                    href="dd"
-                    className="btn-product-icon btn-compare"
-                    title="Compare"
-                  >
-                    <span>Compare</span>
-                  </a>
-                </div>
-
-                <div className="product-action">
-                  <a href="dd" className="btn-product btn-cart">
-                    <span>add to cart</span>
-                  </a>
-                </div>
-              </figure>
-
-              <div className="product-body">
-                <div className="product-cat">
-                  <a href="dd">Women</a>
-                </div>
-
-                <h3 className="product-title">
-                  <a href="product.html">
-                    Brown paperbag waist <br />
-                    pencil skirt
-                  </a>
-                </h3>
-                <div className="product-price">$60.00</div>
-                <div className="ratings-container">
-                  <div className="ratings">
-                    <div className="ratings-val" style={{ width: "20%" }}></div>
-                  </div>
-
-                  <span className="ratings-text">( 2 Reviews )</span>
-                </div>
-
-                <div className="product-nav product-nav-thumbs">
-                  <a href="dd" className="active">
-                    <img
-                      src="assets/images/products/product-4-thumb.jpg"
-                      alt="product desc"
-                    />
-                  </a>
-                  <a href="dd">
-                    <img
-                      src="assets/images/products/product-4-2-thumb.jpg"
-                      alt="product desc"
-                    />
-                  </a>
-
-                  <a href="dd">
-                    <img
-                      src="assets/images/products/product-4-3-thumb.jpg"
-                      alt="product desc"
-                    />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
-      <Suggestions />
+      <FullScreenImageModal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)} // Fermez la modal
+        imageSrc={modalImageSrc} // URL de l'image à afficher dans la modal
+      />
     </div>
   );
 };
