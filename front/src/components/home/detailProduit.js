@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import FullScreenImageModal from "../FullScreenImage/FullScreenImageModal "; // Importez le composant
 import ReactImageZoom from "react-image-zoom"; // Importez ReactImageZoom
+import { useCart } from "../../contexte/CartContext";
+import toast, { Toaster } from "react-hot-toast";
 
 const DetailProduit = () => {
   // Utilisez useParams pour obtenir l'ID du produit à partir de l'URL
@@ -11,6 +13,17 @@ const DetailProduit = () => {
   const [mainImage, setMainImage] = useState(""); // État pour l'image principale
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImageSrc, setModalImageSrc] = useState("");
+  const { addToCart } = useCart(); // Utilisez le hook
+
+  const handleAddToCart = (product) => {
+    // Appeler la fonction addToCart du contexte pour ajouter le produit au panier
+    addToCart(product);
+
+    // Afficher une notification de toast
+    toast.success("Le produit a été ajouté au panier avec succès!", {
+      duration: 3000, // Durée d'affichage en millisecondes (3 secondes dans cet exemple)
+    });
+  };
 
   useEffect(() => {
     async function fetchProduct() {
@@ -49,6 +62,8 @@ const DetailProduit = () => {
   }
   return (
     <div>
+      <Toaster />
+
       <div className={`page-content ${isModalOpen ? "modal-opened" : ""}`}>
         <div className="container">
           <div className="product-details-top">
@@ -164,7 +179,11 @@ const DetailProduit = () => {
                     </div>
                   ) : (
                     <div className="product-details-action">
-                      <a href="dd" className="btn-product btn-cart">
+                      <a
+                        href="#0"
+                        onClick={() => handleAddToCart(product)}
+                        className="btn-product btn-cart"
+                      >
                         <span>add to cart</span>
                       </a>
                     </div>

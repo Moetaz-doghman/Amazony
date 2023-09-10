@@ -1,6 +1,16 @@
 import React from "react";
+import { useCart } from "../contexte/CartContext";
+import { Link } from "react-router-dom";
 
 const Header = () => {
+  const { cart } = useCart();
+
+  // Fonction pour calculer le prix total du panier
+  const calculateTotalPrice = () => {
+    return cart.reduce((total, product) => {
+      return total + product.quantite_demande * product.prix;
+    }, 0);
+  };
   return (
     <div>
       <header className="header">
@@ -86,90 +96,74 @@ const Header = () => {
                   data-display="static"
                 >
                   <i className="icon-shopping-cart"></i>
-                  <span className="cart-count">2</span>
+                  <span className="cart-count">{cart.length}</span>
                 </a>
 
                 <div className="dropdown-menu dropdown-menu-right">
-                  <div className="dropdown-cart-products">
-                    <div className="product">
-                      <div className="product-cart-details">
-                        <h4 className="product-title">
-                          <a href="product.html">
-                            Beige knitted elastic runner shoes
-                          </a>
-                        </h4>
+                  {cart.length === 0 ? (
+                    <p>Votre panier est vide.</p>
+                  ) : (
+                    <div>
+                      <div className="dropdown-cart-products">
+                        {cart.map((product) => (
+                          <div key={product._id} className="product">
+                            <div className="product-cart-details">
+                              <h4 className="product-title">
+                                <Link to={`/${product._id}`}>
+                                  {product.titre}
+                                </Link>
+                              </h4>
 
-                        <span className="cart-product-info">
-                          <span className="cart-product-qty">1</span>x $84.00
+                              <span className="cart-product-info">
+                                <span className="cart-product-qty">
+                                  {product.quantite_demande}{" "}
+                                </span>
+                                *{product.prix}DT
+                              </span>
+                            </div>
+
+                            <figure className="product-image-container">
+                              <a href="product.html" className="product-image">
+                                <img
+                                  src={product.images[0].secure_url}
+                                  alt="product"
+                                />
+                              </a>
+                            </figure>
+                            <a
+                              href="ddd"
+                              className="btn-remove"
+                              title="Remove Product"
+                            >
+                              <i className="icon-close"></i>
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="dropdown-cart-total">
+                        <span>Total</span>
+
+                        <span className="cart-total-price">
+                          {" "}
+                          {calculateTotalPrice()}DT
                         </span>
                       </div>
 
-                      <figure className="product-image-container">
-                        <a href="product.html" className="product-image">
-                          <img
-                            src="assets/images/products/cart/product-1.jpg"
-                            alt="product"
-                          />
+                      <div className="dropdown-cart-action">
+                        <Link to="/cart" className="btn btn-primary">
+                          View Cart
+                        </Link>
+                        <a
+                          href="checkout.html"
+                          className="btn btn-outline-primary-2"
+                        >
+                          <span>Checkout</span>
+                          <i className="icon-long-arrow-right"></i>
                         </a>
-                      </figure>
-                      <a
-                        href="ddd"
-                        className="btn-remove"
-                        title="Remove Product"
-                      >
-                        <i className="icon-close"></i>
-                      </a>
-                    </div>
-
-                    <div className="product">
-                      <div className="product-cart-details">
-                        <h4 className="product-title">
-                          <a href="product.html">
-                            Blue utility pinafore denim dress
-                          </a>
-                        </h4>
-
-                        <span className="cart-product-info">
-                          <span className="cart-product-qty">1</span>x $76.00
-                        </span>
                       </div>
-
-                      <figure className="product-image-container">
-                        <a href="product.html" className="product-image">
-                          <img
-                            src="assets/images/products/cart/product-2.jpg"
-                            alt="product"
-                          />
-                        </a>
-                      </figure>
-                      <a
-                        href="ddd"
-                        className="btn-remove"
-                        title="Remove Product"
-                      >
-                        <i className="icon-close"></i>
-                      </a>
                     </div>
-                  </div>
-
-                  <div className="dropdown-cart-total">
-                    <span>Total</span>
-
-                    <span className="cart-total-price">$160.00</span>
-                  </div>
-
-                  <div className="dropdown-cart-action">
-                    <a href="cart.html" className="btn btn-primary">
-                      View Cart
-                    </a>
-                    <a
-                      href="checkout.html"
-                      className="btn btn-outline-primary-2"
-                    >
-                      <span>Checkout</span>
-                      <i className="icon-long-arrow-right"></i>
-                    </a>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

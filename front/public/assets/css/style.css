@@ -223,6 +223,11 @@ blockquote cite span {
 blockquote.text-white cite {
   color: #cccccc;
 }
+
+.small-input {
+  width: 40px; /* Ajustez la largeur en conséquence */
+}
+
 blockquote.text-white cite span {
   color: #777;
 }
@@ -13619,6 +13624,8 @@ button:focus {
 }
 .cart-product-quantity {
   width: 100px;
+  display: flex;
+  align-items: center;
 }
 .cart-product-quantity .form-control {
   padding: 0.85rem 2.6rem;
@@ -13628,6 +13635,25 @@ button:focus {
   background-color: #fff;
   margin: 0;
 }
+.quantity-btn {
+  background-color: #D3D3D3 ; /* Couleur de fond */
+  border: 1px solid #ccc; /* Bordure */
+  color: #333; /* Couleur du texte */
+  cursor: pointer; /* Curseur en pointeur au survol */
+  font-size: 11px; /* Taille de la police */
+  padding: 5px 10px; /* Espacement interne */
+  outline: none; /* Supprimer la bordure lors du focus */
+}
+
+.quantity-btn:hover {
+  background-color: #f5f5f5; /* Couleur de fond au survol */
+}
+
+.small-input {
+  width: 30px; /* Largeur de l'input */
+  text-align: center; /* Centrer le texte dans l'input */
+}
+
 .input-spinner {
   position: relative;
 }

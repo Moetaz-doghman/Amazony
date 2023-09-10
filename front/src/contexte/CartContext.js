@@ -9,7 +9,40 @@ export const CartProvider = ({ children }) => {
 
   // Fonction pour ajouter un produit au panier
   const addToCart = (product) => {
-    setCart([...cart, product]);
+    // Vérifiez d'abord si le produit est déjà dans le panier
+    const existingProduct = cart.find((item) => item.id === product.id);
+
+    if (existingProduct) {
+      // Si le produit existe déjà dans le panier, incrémente la quantité_demande
+      if (existingProduct.quantite_demande < existingProduct.quantite) {
+        const updatedCart = cart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantite_demande: item.quantite_demande + 1 }
+            : item
+        );
+        setCart(updatedCart);
+      } else {
+        // Vous pouvez afficher une notification ici pour informer que la quantité maximale a été atteinte
+        console.log("La quantité maximale est atteinte pour ce produit");
+      }
+    } else {
+      // Si le produit n'existe pas encore dans le panier, l'ajoute avec quantite_demande à 1
+      setCart([...cart, { ...product, quantite_demande: 1 }]);
+    }
+  };
+
+  // Fonction pour diminuer la quantité d'un produit dans le panier
+  const decreaseFromCart = (productId) => {
+    const updatedCart = cart
+      .map((item) => {
+        if (item.id === productId && item.quantite_demande > 1) {
+          return { ...item, quantite_demande: item.quantite_demande - 1 };
+        }
+        return item;
+      })
+      .filter((item) => item.quantite_demande > 0); // Supprimer les produits avec quantité_demande de 0
+
+    setCart(updatedCart);
   };
 
   // Fonction pour supprimer un produit du panier
@@ -19,7 +52,9 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, decreaseFromCart, removeFromCart }}
+    >
       {children}
     </CartContext.Provider>
   );

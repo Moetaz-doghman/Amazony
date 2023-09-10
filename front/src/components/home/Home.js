@@ -3,6 +3,7 @@ import GridShop from "../gridShop";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useCart } from "../../contexte/CartContext";
+import toast, { Toaster } from "react-hot-toast";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true); // État pour le chargement
@@ -10,12 +11,19 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6);
   const [categories, setCategories] = useState([]);
-  const {  addToCart } = useCart(); // Utilisez le hook
+  const { addToCart } = useCart(); // Utilisez le hook
+  useState(false);
 
   const handleAddToCart = (product) => {
     // Appeler la fonction addToCart du contexte pour ajouter le produit au panier
     addToCart(product);
+
+    // Afficher une notification de toast
+    toast.success("Le produit a été ajouté au panier avec succès!", {
+      duration: 3000, // Durée d'affichage en millisecondes (3 secondes dans cet exemple)
+    });
   };
+
   useEffect(() => {
     axios
       .get("http://localhost:8080/produit/getAllProduit")
@@ -53,7 +61,7 @@ const Home = () => {
     <div>
       <main className="main">
         <GridShop />
-
+        <Toaster />
         <div className="page-content">
           <div className="container">
             <div className="row">
@@ -133,12 +141,6 @@ const Home = () => {
                                 />
                               </Link>
                               <div className="product-action-vertical">
-                                <a
-                                  href="aaa"
-                                  className="btn-product-icon btn-wishlist btn-expandable"
-                                >
-                                  <span>add to wishlist</span>
-                                </a>
                                 <Link
                                   to={`/${product._id}`}
                                   className="btn-product-icon btn-quickview"
@@ -148,12 +150,13 @@ const Home = () => {
                                 </Link>
                               </div>
                               <div className="product-action">
-                                <button
+                                <a
+                                  href="#0"
                                   onClick={() => handleAddToCart(product)}
                                   className="btn-product btn-cart"
                                 >
                                   <span>add to cart</span>
-                                </button>
+                                </a>
                               </div>
                             </figure>
 

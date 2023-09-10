@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import NotFound from "./NotFound";
 import { CartProvider } from "./contexte/CartContext";
+import Cart from "./components/cart/Cart";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/:produitId" element={<DetailProduit />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
