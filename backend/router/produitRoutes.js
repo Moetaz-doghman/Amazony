@@ -8,6 +8,7 @@ router.delete("/deleteProduit/:id", authAdmin, deleteProduit);
 router.get("/getAllProduits", authAdmin, getAllProduits);
 router.get("/getAllProduit", getAllProduit);
 router.get("/getProduitById/:produitId", authAdmin, getProduitById);
+router.get("/getProduitsById/:produitId",  getProduitById);
 router.put("/updateProduit/:id", authAdmin, updateProduit);
 router.get("/getAllCategories", authAdmin ,getAllCategories);
 router.get("/getAllCategorie" ,getAllCategorie);

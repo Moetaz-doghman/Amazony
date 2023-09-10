@@ -4,6 +4,7 @@ import Home from "./components/home/Home";
 import DetailProduit from "./components/home/detailProduit";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import NotFound from "./NotFound";
 
 function App() {
   return (
@@ -12,8 +13,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Detail/:produitId" element={<DetailProduit />} />
-        <Route path="*" element={<Home />} />
+        <Route path="/:produitId" element={<DetailProduit />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </Router>
