@@ -118,7 +118,7 @@ const Home = () => {
                     <div className="row justify-content-center">
                       {currentProducts.map((product) => (
                         <div
-                          key={product.id}
+                          key={product._id}
                           className="col-6 col-md-4 col-lg-4"
                         >
                           <div className="product product-7 text-center">
@@ -189,7 +189,7 @@ const Home = () => {
                               <div className="product-nav product-nav-thumbs">
                                 {product.images.map((image, index) => (
                                   <a
-                                    key={image.secure_url}
+                                    key={`${index}-${image.secure_url}`}
                                     href="aaa"
                                     className="active"
                                   >

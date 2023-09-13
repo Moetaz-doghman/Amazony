@@ -48,14 +48,14 @@ const Header = () => {
         <div className="header-middle sticky-header">
           <div className="container">
             <div className="header-left">
-              <a href="index.html" className="logo">
+              <Link to="/" className="logo">
                 <img
                   src="assets/images/logo.png"
                   alt="Molla Logo"
                   width="105"
                   height="25"
                 />
-              </a>
+              </Link>
             </div>
 
             <div className="header-right">
@@ -141,7 +141,7 @@ const Header = () => {
                         ))}
                       </div>
 
-                      <div className="dropdown-cart-total">
+                      <div className="dropdown-cart-total"> 
                         <span>Total</span>
 
                         <span className="cart-total-price">

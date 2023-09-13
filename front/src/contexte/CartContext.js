@@ -10,16 +10,22 @@ export const CartProvider = ({ children }) => {
   // Fonction pour ajouter un produit au panier
   const addToCart = (product) => {
     // Vérifiez d'abord si le produit est déjà dans le panier
-    const existingProduct = cart.find((item) => item.id === product.id);
+    const existingProductIndex = cart.findIndex(
+      (item) => item._id === product._id
+    );
 
-    if (existingProduct) {
-      // Si le produit existe déjà dans le panier, incrémente la quantité_demande
-      if (existingProduct.quantite_demande < existingProduct.quantite) {
-        const updatedCart = cart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantite_demande: item.quantite_demande + 1 }
-            : item
-        );
+    if (existingProductIndex !== -1) {
+      // Si le produit existe déjà dans le panier, incrémente la quantite_demande
+      if (
+        cart[existingProductIndex].quantite_demande <
+        cart[existingProductIndex].quantite
+      ) {
+        const updatedCart = [...cart]; // Créez une copie du panier
+        updatedCart[existingProductIndex] = {
+          ...updatedCart[existingProductIndex],
+          quantite_demande:
+            updatedCart[existingProductIndex].quantite_demande + 1,
+        };
         setCart(updatedCart);
       } else {
         // Vous pouvez afficher une notification ici pour informer que la quantité maximale a été atteinte
@@ -33,21 +39,20 @@ export const CartProvider = ({ children }) => {
 
   // Fonction pour diminuer la quantité d'un produit dans le panier
   const decreaseFromCart = (productId) => {
-    const updatedCart = cart
-      .map((item) => {
-        if (item.id === productId && item.quantite_demande > 1) {
-          return { ...item, quantite_demande: item.quantite_demande - 1 };
-        }
-        return item;
-      })
-      .filter((item) => item.quantite_demande > 0); // Supprimer les produits avec quantité_demande de 0
+    const updatedCart = cart.map((item) => {
+      if (item._id === productId && item.quantite_demande > 1) {
+        // Créez une copie de l'objet produit pour éviter les modifications indésirables
+        return { ...item, quantite_demande: item.quantite_demande - 1 };
+      }
+      return item;
+    });
 
     setCart(updatedCart);
   };
 
   // Fonction pour supprimer un produit du panier
   const removeFromCart = (productId) => {
-    const updatedCart = cart.filter((product) => product.id !== productId);
+    const updatedCart = cart.filter((product) => product._id !== productId);
     setCart(updatedCart);
   };
 

@@ -43,7 +43,7 @@ const Cart = () => {
                                     <img
                                       src={product.images[0].secure_url}
                                       alt="Product "
-                                      style={{width : "60px" , height: "60px"}}
+                                      style={{ width: "60px", height: "60px" }}
                                     />
                                   </a>
                                 </figure>
@@ -56,36 +56,33 @@ const Cart = () => {
                             <td className="price-col">{product.prix}DT</td>
                             <td className="quantity-col">
                               <div className="cart-product-quantity">
-                                <div className="cart-product-quantity">
-                                  <button
-                                    onClick={() => decreaseFromCart(product.id)} // Diminuer la quantité
-                                    className="quantity-btn minus"
-                                    readOnly
-                                  >
-                                    <i className="icon-minus"></i>
-                                  </button>
-                                  <input
-                                   
-                                    className=" small-input"
-                                    value={product.quantite_demande}
-                                   
-                                  />
-                                  <button
-                                    onClick={() => addToCart(product)} // Augmenter la quantité
-                                    className="quantity-btn plus"
-                                  >
-                                    <i className="icon-plus"></i>
-                                  </button>
-                                </div>
+                                <button
+                                  onClick={() => decreaseFromCart(product._id)} // Diminuer la quantité
+                                  className="quantity-btn minus"
+                                  readOnly
+                                >
+                                  <i className="icon-minus"></i>
+                                </button>
+                                <input
+                                  className="small-input"
+                                  value={product.quantite_demande}
+                                />
+                                <button
+                                  onClick={() => addToCart(product)} // Augmenter la quantité
+                                  className="quantity-btn plus"
+                                >
+                                  <i className="icon-plus"></i>
+                                </button>
                               </div>
                             </td>
+
                             <td className="total-col">
                               {product.quantite_demande * product.prix}DT
                             </td>
                             <td className="remove-col">
                               <button
                                 className="btn-remove"
-                                onClick={() => removeFromCart(product.id)}
+                                onClick={() => removeFromCart(product._id)}
                               >
                                 <i className="icon-close"></i>
                               </button>
@@ -121,7 +118,7 @@ const Cart = () => {
                                 id="livraison-standard"
                                 name="livraison"
                                 className="custom-control-input"
-                                checked
+                                defaultChecked
                               />
                               <label
                                 className="custom-control-label"
