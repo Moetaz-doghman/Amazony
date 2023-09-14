@@ -6,6 +6,7 @@ import ReactImageZoom from "react-image-zoom"; // Importez ReactImageZoom
 import { useCart } from "../../contexte/CartContext";
 import toast, { Toaster } from "react-hot-toast";
 import GridShop from "../gridShop";
+import Comments from "../comments/Comments";
 
 const DetailProduit = () => {
   // Utilisez useParams pour obtenir l'ID du produit à partir de l'URL
@@ -251,7 +252,7 @@ const DetailProduit = () => {
                   aria-controls="product-review-tab"
                   aria-selected="false"
                 >
-                  Reviews (2)
+                  Reviews
                 </a>
               </li>
             </ul>
@@ -275,50 +276,7 @@ const DetailProduit = () => {
                 aria-labelledby="product-review-link"
               >
                 <div className="reviews">
-                  <h3>Reviews (2)</h3>
-                  <div className="review">
-                    <div className="row no-gutters">
-                      <div className="col-auto">
-                        <h4>
-                          <a href="dd">Samanta J.</a>
-                        </h4>
-                        <div className="ratings-container">
-                          <div className="ratings">
-                            <div
-                              className="ratings-val"
-                              style={{ width: "80%" }}
-                            ></div>
-                          </div>
-                        </div>
-
-                        <span className="review-date">6 days ago</span>
-                      </div>
-
-                      <div className="col">
-                        <h4>Good, perfect size</h4>
-
-                        <div className="review-content">
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Ducimus cum dolores assumenda asperiores
-                            facilis porro reprehenderit animi culpa atque
-                            blanditiis commodi perspiciatis doloremque,
-                            possimus, explicabo, autem fugit beatae quae
-                            voluptas!
-                          </p>
-                        </div>
-
-                        <div className="review-action">
-                          <a href="dd">
-                            <i className="icon-thumbs-up"></i>Helpful (2)
-                          </a>
-                          <a href="dd">
-                            <i className="icon-thumbs-down"></i>Unhelpful (0)
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <Comments itemId={produitId}/>
                 </div>
               </div>
             </div>

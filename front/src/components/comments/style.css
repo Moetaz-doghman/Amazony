@@ -1,0 +1,5 @@
+.comment-list {
+    max-height: 200px; /* Définissez la hauteur maximale souhaitée */
+    overflow-y: auto; /* Ajoutez une barre de défilement verticale si nécessaire */
+  }
+  
