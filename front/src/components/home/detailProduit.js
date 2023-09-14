@@ -5,6 +5,7 @@ import FullScreenImageModal from "../FullScreenImage/FullScreenImageModal "; // 
 import ReactImageZoom from "react-image-zoom"; // Importez ReactImageZoom
 import { useCart } from "../../contexte/CartContext";
 import toast, { Toaster } from "react-hot-toast";
+import GridShop from "../gridShop";
 
 const DetailProduit = () => {
   // Utilisez useParams pour obtenir l'ID du produit à partir de l'URL
@@ -14,6 +15,10 @@ const DetailProduit = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImageSrc, setModalImageSrc] = useState("");
   const { addToCart } = useCart(); // Utilisez le hook
+  const data = { 
+    name : "Detail" , 
+    url : ""
+  }
 
   const handleAddToCart = (product) => {
     // Appeler la fonction addToCart du contexte pour ajouter le produit au panier
@@ -63,7 +68,7 @@ const DetailProduit = () => {
   return (
     <div>
       <Toaster />
-
+      <GridShop data={data}/>
       <div className={`page-content ${isModalOpen ? "modal-opened" : ""}`}>
         <div className="container">
           <div className="product-details-top">

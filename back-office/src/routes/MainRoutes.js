@@ -24,6 +24,11 @@ const ProduitList = Loadable(lazy(() => import('pages/produit/ListProduit')));
 const AddProduit = Loadable(lazy(() => import('pages/produit/AddProduit')));
 const ProduitDetail = Loadable(lazy(() => import('pages/produit/DetailProduit')));
 const UpdateProduit = Loadable(lazy(() => import('pages/produit/UpdateProduit')));
+
+// render - commande
+const CommandeList = Loadable(lazy(() => import('pages/commandes/ListCommande')));
+const CommandeDetail = Loadable(lazy(() => import('pages/commandes/DetailCommande')));
+const UpdateCommande = Loadable(lazy(() => import('pages/commandes/UpdateCommande')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -55,6 +60,18 @@ const MainRoutes = {
     {
       path: 'produits/edit/:produitId',
       element: <UpdateProduit />
+    },
+    {
+      path: 'commande-list',
+      element: <CommandeList />
+    },
+    {
+      path: 'commandes/:commandeId',
+      element: <CommandeDetail />
+    },
+    {
+      path: 'commandes/edit/:commandeId',
+      element: <UpdateCommande />
     },
     {
       path: 'dashboard',

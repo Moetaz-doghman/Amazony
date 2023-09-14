@@ -1,6 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const gridShop = () => {
+
+const gridShop = (props) => {
+  const { data } = props;
+
   const pageHeaderStyle = {
     backgroundImage: 'url("assets/images/page-header-bg.jpg")',
   };
@@ -18,10 +22,10 @@ const gridShop = () => {
         <div className="container">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="index.html">Home</a>
+              <Link to="/">Accueil</Link>
             </li>
             <li className="breadcrumb-item">
-              <a href="aa">Shop</a>
+            <Link to={data.url}>{data.name}</Link>
             </li>
           </ol>
         </div>

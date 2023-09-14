@@ -6,6 +6,8 @@ const morgan = require('morgan');
 var adminRouter = require("./router/adminRoutes");
 var galleryRouter = require("./router/galleryRoutes");
 var produitRouter = require("./router/produitRoutes");
+var commandeRouter = require("./router/commandeRoutes");
+var commentRoutes = require("./router/commentRoutes");
 
 var configDb = require('./db.json')
 
@@ -39,6 +41,9 @@ const port = 8080;
 app.use('/admin', adminRouter);
 app.use('/gallery', galleryRouter);
 app.use('/produit', produitRouter);
+app.use('/commande', commandeRouter );
+app.use('/comment', commentRoutes );
+
 
 /** end api routes */
 

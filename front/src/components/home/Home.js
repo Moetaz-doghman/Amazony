@@ -13,6 +13,10 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const { addToCart } = useCart(); // Utilisez le hook
   useState(false);
+  const data = {
+    name: "",
+    url: "/",
+  };
 
   const handleAddToCart = (product) => {
     // Appeler la fonction addToCart du contexte pour ajouter le produit au panier
@@ -60,7 +64,7 @@ const Home = () => {
   return (
     <div>
       <main className="main">
-        <GridShop />
+        <GridShop data={data} />
         <Toaster />
         <div className="page-content">
           <div className="container">
