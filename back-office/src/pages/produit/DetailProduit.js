@@ -3,14 +3,31 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Box, Grid, Typography, Button, Dialog, DialogContent } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment'; // Importez Moment.js
+import ReactStars from 'react-rating-stars-component';
+import { Table, TableHead, TableBody, TableRow, TableCell, IconButton } from '@mui/material';
+import { Delete } from '@mui/icons-material';
+import { styled } from '@mui/system';
+
+const StyledTable = styled(Table)({
+  minWidth: 500
+});
+
+const StyledTableCell = styled(TableCell)(() => ({
+  fontWeight: 'bold',
+  color: '#E32845',
+  fontSize: 14
+}));
 
 const DetailProduit = () => {
   const navigate = useNavigate();
   const { produitId } = useParams();
   const [produitDetails, setProduitDetails] = useState(null);
   const [error, setError] = useState('');
+  const [comments, setComments] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const token = localStorage.getItem('token');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchProduitDetails = async () => {
@@ -30,6 +47,25 @@ const DetailProduit = () => {
 
     fetchProduitDetails();
   }, [produitId, token]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`http://localhost:8080/comment/comments/${produitId}`);
+        setComments(response.data);
+        console.log(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des commentaires :', error);
+      }
+    };
+    fetchComments();
+  }, [produitId]);
+
+  const formatDate = (dateString) => {
+    return moment(dateString).format('DD MMMM YYYY à HH:mm'); // Utilisez le format de date souhaité
+  };
 
   const handleConfirmDeleteProduit = () => {
     axios
@@ -61,6 +97,18 @@ const DetailProduit = () => {
   if (!produitDetails) {
     return <p>Loading...</p>;
   }
+  const handleDeleteComment = (commentId) => {
+    if (window.confirm('Are you sure you want to delete this comment?')) {
+      axios
+        .delete(`http://localhost:8080/comment/comments/${commentId}`)
+        .then(() => {
+          setComments(comments.filter((comment) => comment._id !== commentId)); // Utilisez eventId ici
+        })
+        .catch((error) => {
+          console.error('Error deleting comment:', error);
+        });
+    }
+  };
 
   return (
     <>
@@ -157,6 +205,53 @@ const DetailProduit = () => {
             </Box>
           </Grid>
         </Grid>
+        <Typography variant="subtitle1" sx={{ fontWeight: 'bold', color: '#333333' }}>
+          Commentaires:
+        </Typography>
+        {comments.length === 0 ? ( // Vérifiez si la liste des commentaires est vide
+          <Typography variant="body1" sx={{ color: '#666666' }}>
+            Pas de commentaires.
+          </Typography>
+        ) : (
+          <StyledTable>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Comment</StyledTableCell>
+                <StyledTableCell>Rating</StyledTableCell>
+                <StyledTableCell>Date</StyledTableCell>
+                <StyledTableCell>Options</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {isLoading ? (
+                <TableRow>
+                  <StyledTableCell colSpan={6}>Loading...</StyledTableCell>
+                </TableRow>
+              ) : (
+                comments.map((comment) => (
+                  <TableRow key={comment._id}>
+                    <TableCell style={{ maxWidth: '500px', wordWrap: 'break-word' }}>{comment.comment}</TableCell>
+                    <TableCell>
+                      <ReactStars
+                        count={5}
+                        size={24}
+                        value={comment.rating}
+                        edit={false} // Empêche l'utilisateur de modifier le rating
+                        activeColor="#ffd700" // Couleur des étoiles remplies
+                      />
+                    </TableCell>
+                    <TableCell>{formatDate(comment.createdAt)}</TableCell>
+                    <TableCell>
+                      <IconButton color="error" onClick={() => handleDeleteComment(comment._id)}>
+                        <Delete />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </StyledTable>
+        )}
       </Box>
 
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
