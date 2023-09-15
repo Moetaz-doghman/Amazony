@@ -339,3 +339,23 @@ exports.getProduitsByPrice = async (req, res) => {
     res.status(500).json({ message: "Erreur serveur" });
   }
 };
+
+exports.search = async (req, res) => {
+  try {
+    const searchTerm = req.query.q; // Récupérez les termes de recherche depuis la requête GET
+
+    // Utilisez une requête Mongoose pour rechercher des produits qui correspondent aux termes de recherche
+    const results = await Produit.find({
+      $or: [
+        { titre: { $regex: searchTerm, $options: "i" } }, // Recherche insensible à la casse dans le titre
+        { description: { $regex: searchTerm, $options: "i" } }, // Recherche insensible à la casse dans la description
+        // Ajoutez d'autres champs à rechercher si nécessaire
+      ],
+    });
+
+    res.json(results); // Renvoyer les résultats de la recherche au format JSON
+  } catch (error) {
+    console.error("Erreur lors de la recherche de produits :", error);
+    res.status(500).json({ error: "Erreur lors de la recherche de produits" });
+  }
+};

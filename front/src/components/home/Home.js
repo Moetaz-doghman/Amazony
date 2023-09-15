@@ -8,45 +8,60 @@ import Slider from "react-slider";
 import "./home.css";
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState(true); // État pour le chargement
+  const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
-  const [sortOption, setSortOption] = useState("rating"); // Par défaut, triez par "Most Rated"
+  const [sortOption, setSortOption] = useState("rating");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const { addToCart } = useCart(); // Utilisez le hook
+  const { addToCart } = useCart();
   useState(false);
   const data = {
     name: "",
     url: "/",
   };
-  const [priceRange, setPriceRange] = useState([0, 1000]); // Valeurs min et max du curseur
-  const [selectedPriceRange, setSelectedPriceRange] = useState([0, 1000]); // Valeurs sélectionnées
+  const [selectedPriceRange, setSelectedPriceRange] = useState([0, 3000]);
 
   const handlePriceChange = (value) => {
     setSelectedPriceRange(value);
   };
 
   const handlePriceChangeComplete = (value) => {
-    // Mettez à jour le filtre de prix après que l'utilisateur a relâché le curseur
-    setPriceRange(value);
+    const minPrice = value[0];
+    const maxPrice = value[1];
+
+    axios
+      .get(
+        `http://localhost:8080/produit/getProduitsByPrice?minPrice=${minPrice}&maxPrice=${maxPrice}`
+      )
+      .then((response) => {
+        setProducts(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error(
+          "Erreur lors de la récupération des produits par prix :",
+          error
+        );
+        setIsLoading(false);
+      });
   };
 
   const handleCategoryChange = (event) => {
     const categoryValue = event.target.value;
-    console.log(categoryValue);
     if (event.target.checked) {
-      // Ajouter la catégorie sélectionnée à la liste des catégories sélectionnées
       setSelectedCategories([...selectedCategories, categoryValue]);
     } else {
-      // Retirer la catégorie décochée de la liste des catégories sélectionnées
       setSelectedCategories(
         selectedCategories.filter((cat) => cat !== categoryValue)
       );
     }
   };
-
+  const handleClearAll = () => {
+    setSelectedCategories([]);
+    setSelectedPriceRange([0, 3000]);
+  };
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
   };
@@ -63,7 +78,6 @@ const Home = () => {
     }
 
     if (selectedCategories.length > 0) {
-      // Filtrer par catégories sélectionnées si des catégories sont sélectionnées
       apiUrl = `http://localhost:8080/produit/getProduitsByCategories/${selectedCategories.join(
         ","
       )}`;
@@ -82,12 +96,10 @@ const Home = () => {
   }, [sortOption, selectedCategories]);
 
   const handleAddToCart = (product) => {
-    // Appeler la fonction addToCart du contexte pour ajouter le produit au panier
     addToCart(product);
 
-    // Afficher une notification de toast
     toast.success("Le produit a été ajouté au panier avec succès!", {
-      duration: 3000, // Durée d'affichage en millisecondes (3 secondes dans cet exemple)
+      duration: 3000,
     });
   };
 
@@ -96,7 +108,6 @@ const Home = () => {
       .get("http://localhost:8080/produit/getAllCategorie")
       .then((response) => {
         setCategories(response.data);
-        console.log(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -327,7 +338,11 @@ const Home = () => {
                 <div className="sidebar sidebar-shop">
                   <div className="widget widget-clean">
                     <label>Filters:</label>
-                    <a href="aaa" className="sidebar-filter-clear">
+                    <a
+                    href="#0"
+                      className="sidebar-filter-clear"
+                      onClick={handleClearAll}
+                    >
                       Clean All
                     </a>
                   </div>
@@ -399,11 +414,14 @@ const Home = () => {
                             {selectedPriceRange[1]}DT
                           </div>
                           <Slider
-                            min={priceRange[0]}
-                            max={priceRange[1]}
+                            min={0}
+                            max={3000}
                             value={selectedPriceRange}
                             onChange={handlePriceChange}
                             onAfterChange={handlePriceChangeComplete}
+                            className="customSlider"
+                            trackClassName="customSlider-track"
+                            thumbClassName="customSlider-thumb"
                           />
                         </div>
                       </div>
