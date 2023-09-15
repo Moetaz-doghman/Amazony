@@ -124,7 +124,7 @@ const DetailProduit = () => {
                     <div className="ratings">
                       <div
                         className="ratings-val"
-                        style={{ width: "80%" }}
+                        style={{ width: `${(product.averageRating/5)*100}%` }}
                       ></div>
                     </div>
 
@@ -132,8 +132,8 @@ const DetailProduit = () => {
                       className="ratings-text"
                       href="#product-review-link"
                       id="review-link"
-                    >
-                      ( 2 Reviews )
+                    > 
+                      (Moyenne des avis ) 
                     </a>
                   </div>
 

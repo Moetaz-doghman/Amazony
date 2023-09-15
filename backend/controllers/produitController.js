@@ -1,4 +1,5 @@
 const Produit = require("../model/Produit.model");
+const Comment = require("../model/Comment.model");
 
 // Contrôleur pour afficher tous les produits
 exports.getAllProduits = async (req, res) => {
@@ -220,5 +221,121 @@ exports.getAllProduit = async (req, res) => {
     res.status(500).json({
       message: "Une erreur est survenue lors de la récupération des produits.",
     });
+  }
+};
+
+// Fonction pour calculer la moyenne du rating pour chaque produit
+async function calculateAverageRatingsForProducts() {
+  try {
+    const averageRatings = await Comment.aggregate([
+      {
+        $group: {
+          _id: "$itemId", // Utilisez le champ itemId pour regrouper les avis par produit
+          averageRating: { $avg: "$rating" },
+        },
+      },
+    ]);
+
+    return averageRatings;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Fonction pour mettre à jour les produits avec les moyennes des avis
+async function updateProductsWithAverageRatings() {
+  try {
+    // Calculez la moyenne des avis pour chaque produit
+    const averageRatings = await calculateAverageRatingsForProducts();
+
+    // Récupérez la liste des produits
+    const products = await Produit.find();
+
+    // Créez un objet pour stocker les moyennes des avis par produit
+    const productRatingsMap = {};
+    averageRatings.forEach((rating) => {
+      productRatingsMap[rating._id] = rating.averageRating;
+    });
+
+    // Mettez à jour chaque produit avec sa moyenne respective
+    for (const product of products) {
+      const averageRating = productRatingsMap[product._id] || 0; // Valeur par défaut si aucune moyenne trouvée
+      product.averageRating = averageRating;
+      await product.save(); // Enregistrez la mise à jour dans la base de données
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Fonction pour récupérer la liste des produits avec les moyennes des avis
+exports.mostRated = async (req, res) => {
+  try {
+    // Mettez à jour les produits avec les moyennes des avis
+    await updateProductsWithAverageRatings();
+
+    // Récupérez la liste des produits mise à jour
+    const products = await Produit.find();
+
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Route pour trier les produits par "Most Rated"
+exports.getAllProduitByRating = async (req, res) => {
+  try {
+    const products = await Produit.find().sort({ averageRating: -1 });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Route pour trier les produits par "Date"
+exports.getAllProduitByDate = async (req, res) => {
+  try {
+    const products = await Produit.find().sort({ date: -1 });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.getProduitsByCategories = async (req, res) => {
+  const selectedCategories = req.params.categories.split(",");
+
+  // Filtrer les produits en fonction des catégories sélectionnées
+  Produit.find({ categorie: { $in: selectedCategories } })
+    .then((products) => {
+      res.json(products);
+    })
+    .catch((error) => {
+      console.error(
+        "Erreur lors de la récupération des produits par catégorie :",
+        error
+      );
+      res.status(500).json({ error: "Erreur serveur" });
+    });
+};
+
+// Exemple de route pour filtrer les produits par prix
+exports.getProduitsByPrice = async (req, res) => {
+  try {
+    const { minPrice, maxPrice } = req.query;
+
+    // Votre logique de filtrage ici, par exemple en utilisant une requête à la base de données
+    const filteredProducts = await Produit.find({
+      prix: { $gte: minPrice, $lte: maxPrice },
+    });
+
+    res.json(filteredProducts);
+  } catch (error) {
+    console.error(
+      "Erreur lors de la récupération des produits par prix :",
+      error
+    );
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };

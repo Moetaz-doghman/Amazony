@@ -46,6 +46,8 @@ const ProduitSchema = new mongoose.Schema(
       type: String,
     },
     images: [ImageSchema],
+    averageRating : { type: Number, required: false },
+
   },
   { timestamps: true }
 );

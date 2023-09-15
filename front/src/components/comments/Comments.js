@@ -68,6 +68,8 @@ const Comments = (props) => {
       // Réinitialisez les champs du formulaire
       setComment("");
       setRating(5);
+      axios.post("http://localhost:8080/produit/mostRated");
+
     } catch (error) {
       console.error("Erreur lors de l'ajout du commentaire :", error);
     }

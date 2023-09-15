@@ -4,19 +4,82 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useCart } from "../../contexte/CartContext";
 import toast, { Toaster } from "react-hot-toast";
+import Slider from "react-slider";
+import "./home.css";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true); // État pour le chargement
   const [products, setProducts] = useState([]);
+  const [sortOption, setSortOption] = useState("rating"); // Par défaut, triez par "Most Rated"
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6);
   const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const { addToCart } = useCart(); // Utilisez le hook
   useState(false);
   const data = {
     name: "",
     url: "/",
   };
+  const [priceRange, setPriceRange] = useState([0, 1000]); // Valeurs min et max du curseur
+  const [selectedPriceRange, setSelectedPriceRange] = useState([0, 1000]); // Valeurs sélectionnées
+
+  const handlePriceChange = (value) => {
+    setSelectedPriceRange(value);
+  };
+
+  const handlePriceChangeComplete = (value) => {
+    // Mettez à jour le filtre de prix après que l'utilisateur a relâché le curseur
+    setPriceRange(value);
+  };
+
+  const handleCategoryChange = (event) => {
+    const categoryValue = event.target.value;
+    console.log(categoryValue);
+    if (event.target.checked) {
+      // Ajouter la catégorie sélectionnée à la liste des catégories sélectionnées
+      setSelectedCategories([...selectedCategories, categoryValue]);
+    } else {
+      // Retirer la catégorie décochée de la liste des catégories sélectionnées
+      setSelectedCategories(
+        selectedCategories.filter((cat) => cat !== categoryValue)
+      );
+    }
+  };
+
+  const handleSortChange = (event) => {
+    setSortOption(event.target.value);
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    let apiUrl = "http://localhost:8080/produit/getAllProduit";
+
+    if (sortOption === "rating") {
+      apiUrl = "http://localhost:8080/produit/getAllProduitByRating";
+    } else if (sortOption === "date") {
+      apiUrl = "http://localhost:8080/produit/getAllProduitByDate";
+    }
+
+    if (selectedCategories.length > 0) {
+      // Filtrer par catégories sélectionnées si des catégories sont sélectionnées
+      apiUrl = `http://localhost:8080/produit/getProduitsByCategories/${selectedCategories.join(
+        ","
+      )}`;
+    }
+
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        setProducts(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des produits :", error);
+        setIsLoading(false);
+      });
+  }, [sortOption, selectedCategories]);
 
   const handleAddToCart = (product) => {
     // Appeler la fonction addToCart du contexte pour ajouter le produit au panier
@@ -30,22 +93,10 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/produit/getAllProduit")
-      .then((response) => {
-        setProducts(response.data);
-        setIsLoading(false); // Définissez isLoading sur false une fois les données chargées
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la récupération des produits :", error);
-        setIsLoading(false); // Assurez-vous de définir isLoading sur false en cas d'erreur aussi
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
       .get("http://localhost:8080/produit/getAllCategorie")
       .then((response) => {
         setCategories(response.data);
+        console.log(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -89,26 +140,23 @@ const Home = () => {
                           name="sortby"
                           id="sortby"
                           className="form-control"
+                          value={sortOption}
+                          onChange={handleSortChange}
                         >
-                          <option value="popularity" defaultValue>
-                            Most Popular
-                          </option>
                           <option value="rating">Most Rated</option>
                           <option value="date">Date</option>
                         </select>
                       </div>
                     </div>
                     <div className="toolbox-layout">
-                      <a href="category.html" className="btn-layout active">
-                        <svg width="16" height="10">
-                          <rect x="0" y="0" width="4" height="4" />
-                          <rect x="6" y="0" width="4" height="4" />
-                          <rect x="12" y="0" width="4" height="4" />
-                          <rect x="0" y="6" width="4" height="4" />
-                          <rect x="6" y="6" width="4" height="4" />
-                          <rect x="12" y="6" width="4" height="4" />
-                        </svg>
-                      </a>
+                      <svg width="16" height="10">
+                        <rect x="0" y="0" width="4" height="4" />
+                        <rect x="6" y="0" width="4" height="4" />
+                        <rect x="12" y="0" width="4" height="4" />
+                        <rect x="0" y="6" width="4" height="4" />
+                        <rect x="6" y="6" width="4" height="4" />
+                        <rect x="12" y="6" width="4" height="4" />
+                      </svg>
                     </div>
                   </div>
                 </div>
@@ -154,13 +202,15 @@ const Home = () => {
                                 </Link>
                               </div>
                               <div className="product-action">
-                                <a
-                                  href="#0"
-                                  onClick={() => handleAddToCart(product)}
-                                  className="btn-product btn-cart"
-                                >
-                                  <span>add to cart</span>
-                                </a>
+                                {product.quantite !== "0" && (
+                                  <a
+                                    href="#0"
+                                    onClick={() => handleAddToCart(product)}
+                                    className="btn-product btn-cart"
+                                  >
+                                    <span>add to cart</span>
+                                  </a>
+                                )}
                               </div>
                             </figure>
 
@@ -182,11 +232,15 @@ const Home = () => {
                                 <div className="ratings">
                                   <div
                                     className="ratings-val"
-                                    style={{ width: "20%" }}
+                                    style={{
+                                      width: `${
+                                        (product.averageRating / 5) * 100
+                                      }%`,
+                                    }}
                                   ></div>
                                 </div>
                                 <span className="ratings-text">
-                                  ( 2 Reviews )
+                                  (Moyenne des avis )
                                 </span>
                               </div>
 
@@ -290,21 +344,25 @@ const Home = () => {
                         Category
                       </a>
                     </h3>
-
                     <div className="collapse show" id="widget-1">
                       <div className="widget-body">
                         <div className="filter-items filter-items-count">
                           {categories.map((category) => (
-                            <div className="filter-item" key={category.id}>
+                            <div className="filter-item" key={category.nom}>
                               <div className="custom-control custom-checkbox">
                                 <input
                                   type="checkbox"
                                   className="custom-control-input"
-                                  id={`cat-${category.id}`}
+                                  id={`cat-${category.nom}`}
+                                  value={category.nom}
+                                  checked={selectedCategories.includes(
+                                    category.nom
+                                  )}
+                                  onChange={handleCategoryChange}
                                 />
                                 <label
                                   className="custom-control-label"
-                                  htmlFor={`cat-${category.id}`}
+                                  htmlFor={`cat-${category.nom}`}
                                 >
                                   {category.nom}
                                 </label>
@@ -337,10 +395,16 @@ const Home = () => {
                       <div className="widget-body">
                         <div className="filter-price">
                           <div className="filter-price-text">
-                            Price Range:
-                            <span id="filter-price-range"></span>
+                            Price Range: {selectedPriceRange[0]}DT -{" "}
+                            {selectedPriceRange[1]}DT
                           </div>
-                          <div id="price-slider"></div>
+                          <Slider
+                            min={priceRange[0]}
+                            max={priceRange[1]}
+                            value={selectedPriceRange}
+                            onChange={handlePriceChange}
+                            onAfterChange={handlePriceChangeComplete}
+                          />
                         </div>
                       </div>
                     </div>
