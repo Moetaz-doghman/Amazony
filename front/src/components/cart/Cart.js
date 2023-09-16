@@ -2,7 +2,6 @@ import React from "react";
 import { useCart } from "../../contexte/CartContext";
 import { Link } from "react-router-dom";
 
-
 const Cart = () => {
   const { cart, decreaseFromCart, removeFromCart, addToCart } = useCart();
 
@@ -15,7 +14,7 @@ const Cart = () => {
 
   const calculateSousTotal = () => {
     return cart.reduce(
-      (total, product) => total + product.quantite_demande * product.prix ,
+      (total, product) => total + product.quantite_demande * product.prix,
       0
     );
   };
@@ -48,17 +47,17 @@ const Cart = () => {
                             <td className="product-col">
                               <div className="product">
                                 <figure className="product-media">
-                                  <a href="#0">
+                                  <Link to={`/${product._id}`}>
                                     <img
                                       src={product.images[0].secure_url}
                                       alt="Product "
                                       style={{ width: "60px", height: "60px" }}
                                     />
-                                  </a>
+                                  </Link>
                                 </figure>
 
                                 <h3 className="product-title">
-                                  <a href="#0">{product.titre}</a>
+                                {product.titre}
                                 </h3>
                               </div>
                             </td>
@@ -158,10 +157,7 @@ const Cart = () => {
                   )}
                 </div>
 
-                <Link
-                  to="/"
-                  className="btn btn-outline-dark-2 btn-block mb-3"
-                >
+                <Link to="/" className="btn btn-outline-dark-2 btn-block mb-3">
                   <span>CONTINUER LES ACHATS</span>
                   <i className="icon-refresh"></i>
                 </Link>

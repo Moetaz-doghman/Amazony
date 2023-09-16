@@ -82,30 +82,30 @@ const Checkout = () => {
         adresse: formData.adresse,
         tel: formData.tel,
         note: formData.note,
-        prix_totale : calculateTotal().toString(), 
+        prix_totale: calculateTotal().toString(),
         produits: cart.map((product) => ({
           produit: product._id,
           quantite: product.quantite_demande,
         })),
       };
 
-      console.log(requestBody)
+      console.log(requestBody);
 
-      // try {
-      //   await toast.promise(
-      //     axios.post("http://localhost:8080/commande/commandes", requestBody),
-      //     {
-      //       loading: "Enregistrement en cours...",
-      //       success: <b>Commande validé!</b>,
-      //       error: <b>Impossible de sauvegarder.</b>,
-      //     }
-      //   );
+      try {
+        await toast.promise(
+          axios.post("http://localhost:8080/commande/commandes", requestBody),
+          {
+            loading: "Enregistrement en cours...",
+            success: <b>Commande validé!</b>,
+            error: <b>Impossible de sauvegarder.</b>,
+          }
+        );
 
-      //   localStorage.clear();
-      //   navigate("/");
-      // } catch (error) {
-      //   console.error("Erreur lors de l'ajout du commande :", error);
-      // }
+        localStorage.clear();
+        navigate("/");
+      } catch (error) {
+        console.error("Erreur lors de l'ajout du commande :", error);
+      }
     } else {
       setFormErrors(errors);
     }
@@ -208,7 +208,7 @@ const Checkout = () => {
                           <React.Fragment key={product._id}>
                             <tr>
                               <td>
-                                <Link to={product._id}>
+                                <Link to={`/${product._id}`}>
                                   {product.titre} * {product.quantite_demande}
                                 </Link>
                               </td>

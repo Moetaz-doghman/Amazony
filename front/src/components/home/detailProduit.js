@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import FullScreenImageModal from "../FullScreenImage/FullScreenImageModal "; // Importez le composant
 import ReactImageZoom from "react-image-zoom"; // Importez ReactImageZoom
@@ -7,6 +7,7 @@ import { useCart } from "../../contexte/CartContext";
 import toast, { Toaster } from "react-hot-toast";
 import GridShop from "../gridShop";
 import Comments from "../comments/Comments";
+import Suggestions from "./Suggestions";
 
 const DetailProduit = () => {
   // Utilisez useParams pour obtenir l'ID du produit à partir de l'URL
@@ -16,10 +17,11 @@ const DetailProduit = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImageSrc, setModalImageSrc] = useState("");
   const { addToCart } = useCart(); // Utilisez le hook
-  const data = { 
-    name : "Detail" , 
-    url : ""
-  }
+  const navigate = useNavigate();
+  const data = {
+    name: "Detail",
+    url: "",
+  };
 
   const handleAddToCart = (product) => {
     // Appeler la fonction addToCart du contexte pour ajouter le produit au panier
@@ -29,6 +31,12 @@ const DetailProduit = () => {
     toast.success("Le produit a été ajouté au panier avec succès!", {
       duration: 3000, // Durée d'affichage en millisecondes (3 secondes dans cet exemple)
     });
+  };
+
+  const handleOrder = (product) => {
+    // Appeler la fonction addToCart du contexte pour ajouter le produit au panier
+    addToCart(product);
+    navigate("/checkout");
   };
 
   useEffect(() => {
@@ -68,8 +76,7 @@ const DetailProduit = () => {
   }
   return (
     <div>
-      <Toaster />
-      <GridShop data={data}/>
+      <GridShop data={data} />
       <div className={`page-content ${isModalOpen ? "modal-opened" : ""}`}>
         <div className="container">
           <div className="product-details-top">
@@ -124,7 +131,9 @@ const DetailProduit = () => {
                     <div className="ratings">
                       <div
                         className="ratings-val"
-                        style={{ width: `${(product.averageRating/5)*100}%` }}
+                        style={{
+                          width: `${(product.averageRating / 5) * 100}%`,
+                        }}
                       ></div>
                     </div>
 
@@ -132,8 +141,8 @@ const DetailProduit = () => {
                       className="ratings-text"
                       href="#product-review-link"
                       id="review-link"
-                    > 
-                      (Moyenne des avis ) 
+                    >
+                      (Moyenne des avis )
                     </a>
                   </div>
 
@@ -143,45 +152,43 @@ const DetailProduit = () => {
                     <p>{product.description}</p>
                   </div>
                   {product.couleur.length > 0 && (
-                     <div className="details-filter-row details-row-size">
-                     <label htmlFor="size">Couleur:</label>
-                     <div className="select-custom">
-                       <select name="size" id="size" className="form-control">
-                         <option value="#" defaultValue>
-                           Choisir une couleur 
-                         </option>
-                         {product.couleur.map((couleur, index) => (
-                           <option key={index} value={couleur}>
-                             {couleur} 
-                           </option>
-                         ))}
-
-                       </select>
-                     </div>
-                   </div>
+                    <div className="details-filter-row details-row-size">
+                      <label htmlFor="size">Couleur:</label>
+                      <div className="select-custom">
+                        <select name="size" id="size" className="form-control">
+                          <option value="#" defaultValue>
+                            les couleurs disponible
+                          </option>
+                          {product.couleur.map((couleur, index) => (
+                            <option key={index} value={couleur}>
+                              {couleur}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
                   )}
 
                   {product.taille.length > 0 && (
                     <div className="details-filter-row details-row-size">
-                      <label htmlFor="size">Size:</label>
+                      <label htmlFor="size">Taille:</label>
                       <div className="select-custom">
                         <select name="size" id="size" className="form-control">
                           <option value="#" defaultValue>
-                            Select a size 
+                            Les tailles disponible
                           </option>
                           {product.taille.map((taille, index) => (
                             <option key={index} value={taille}>
-                              {taille} 
+                              {taille}
                             </option>
                           ))}
-
                         </select>
                       </div>
                     </div>
                   )}
 
                   <div className="details-filter-row details-row-size">
-                    <label htmlFor="qty">Qty:</label>
+                    <label htmlFor="qty">Quantite:</label>
                     <div className="product-details-quantity">
                       <input
                         type="number"
@@ -197,38 +204,51 @@ const DetailProduit = () => {
                       <span>Rupture de stock</span>
                     </div>
                   ) : (
-                    <div className="product-details-action">
-                      <a
-                        href="#0"
-                        onClick={() => handleAddToCart(product)}
-                        className="btn-product btn-cart"
-                      >
-                        <span>add to cart</span>
-                      </a>
-                    </div>
+                    <>
+                      <div className="product-details-action">
+                        <a
+                          href="#0"
+                          onClick={() => handleAddToCart(product)}
+                          className="btn btn-product btn-cart"
+                        >
+                          <span>Ajouter au panier</span>
+                        </a>
+                      </div>
+                      <div className="product-details-action">
+                        <a
+                          href="#0"
+                          onClick={() => handleOrder(product)}
+                          className="btn btn-product btn-cart"
+                        >
+                          <span>Commander</span>
+                        </a>
+                      </div>
+                    </>
                   )}
 
                   <div className="product-details-footer">
                     <div className="product-cat">
-                      <span>Category:</span>
-                      <a href="dd">{product.categorie}</a>
+                      <span>Categorie:</span>
+                      {product.categorie}
                     </div>
 
                     <div className="social-icons social-icons-sm">
-                      <span className="social-label">Share:</span>
+                      <span className="social-label">Partager:</span>
                       <a
-                        href="dd"
+                        href="https://www.facebook.com"
                         className="social-icon"
                         title="Facebook"
                         target="_blank"
+                        rel="noreferrer"
                       >
                         <i className="icon-facebook-f"></i>
                       </a>
                       <a
-                        href="dd"
+                        href="https://www.instagram.com"
                         className="social-icon"
                         title="Instagram"
                         target="_blank"
+                        rel="noreferrer"
                       >
                         <i className="icon-instagram"></i>
                       </a>
@@ -265,7 +285,7 @@ const DetailProduit = () => {
                   aria-controls="product-review-tab"
                   aria-selected="false"
                 >
-                  Reviews
+                  Avis
                 </a>
               </li>
             </ul>
@@ -277,7 +297,7 @@ const DetailProduit = () => {
                 aria-labelledby="product-desc-link"
               >
                 <div className="product-desc-content">
-                  <h3>Product Information</h3>
+                  <h3>Informations sur le produit</h3>
                   <p>{product.description_detaillee}</p>
                 </div>
               </div>
@@ -289,13 +309,15 @@ const DetailProduit = () => {
                 aria-labelledby="product-review-link"
               >
                 <div className="reviews">
-                <Comments itemId={produitId}/>
+                  <Comments itemId={produitId} />
                 </div>
               </div>
             </div>
           </div>
 
-          <h2 className="title text-center mb-4">You May Also Like</h2>
+          
+              <Suggestions/>
+
         </div>
       </div>
       <FullScreenImageModal
@@ -303,6 +325,7 @@ const DetailProduit = () => {
         onRequestClose={() => setIsModalOpen(false)} // Fermez la modal
         imageSrc={modalImageSrc} // URL de l'image à afficher dans la modal
       />
+      <Toaster />
     </div>
   );
 };

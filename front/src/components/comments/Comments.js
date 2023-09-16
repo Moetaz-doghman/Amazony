@@ -51,6 +51,15 @@ const Comments = (props) => {
       return;
     }
 
+     // Vérifiez si le commentaire a plus de 5 lettres différentes et au moins 20 caractères
+     const uniqueLetters = new Set(comment.replace(/\s/g, '').split(''));
+     if (uniqueLetters.size < 5 || comment.length < 20) {
+       toast.error(
+         "Votre commentaire doit contenir au moins 20 caractères et 5 lettres différentes."
+       );
+       return;
+     }
+
     const newCommentData = {
       itemId: itemId,
       comment,

@@ -8,6 +8,7 @@ import NotFound from "./NotFound";
 import { CartProvider } from "./contexte/CartContext";
 import Cart from "./components/cart/Cart";
 import Checkout from "./components/checkout/Checkout";
+import Suggestions from "./components/home/Suggestions"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/:produitId" element={<DetailProduit />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/sug" element={<Suggestions />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
