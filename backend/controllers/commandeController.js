@@ -3,7 +3,7 @@ const Produit = require("../model/Produit.model");
 
 exports.createCommande = async (req, res) => {
   try {
-    const { nom_prenom, ville, adresse, tel, note, produits } = req.body;
+    const { nom_prenom, ville, adresse, tel, note, produits , prix_totale } = req.body;
 
     // Créez un tableau pour stocker les ID des produits à mettre à jour
     const produitsToUpdate = [];
@@ -45,6 +45,7 @@ exports.createCommande = async (req, res) => {
       tel,
       note,
       produits,
+      prix_totale,
     });
 
     const commandeEnregistree = await nouvelleCommande.save();

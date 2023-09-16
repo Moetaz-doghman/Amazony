@@ -3,7 +3,7 @@ import { useCart } from "../contexte/CartContext";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  const { cart } = useCart();
+  const { cart , removeFromCart } = useCart();
 
   // Fonction pour calculer le prix total du panier
   const calculateTotalPrice = () => {
@@ -130,13 +130,13 @@ const Header = () => {
                                 />
                               </a>
                             </figure>
-                            <a
-                              href="ddd"
+                            <button
                               className="btn-remove"
                               title="Remove Product"
+                              onClick={() => removeFromCart(product._id)}
                             >
                               <i className="icon-close"></i>
-                            </a>
+                            </button>
                           </div>
                         ))}
                       </div>

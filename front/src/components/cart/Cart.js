@@ -1,5 +1,7 @@
 import React from "react";
 import { useCart } from "../../contexte/CartContext";
+import { Link } from "react-router-dom";
+
 
 const Cart = () => {
   const { cart, decreaseFromCart, removeFromCart, addToCart } = useCart();
@@ -7,6 +9,13 @@ const Cart = () => {
   const calculateTotal = () => {
     return cart.reduce(
       (total, product) => total + product.quantite_demande * product.prix + 7,
+      0
+    );
+  };
+
+  const calculateSousTotal = () => {
+    return cart.reduce(
+      (total, product) => total + product.quantite_demande * product.prix ,
       0
     );
   };
@@ -103,7 +112,7 @@ const Cart = () => {
                       <tbody>
                         <tr className="summary-subtotal">
                           <td>Sous-total :</td>
-                          <td>${calculateTotal()}</td>
+                          <td>{calculateSousTotal()}DT</td>
                         </tr>
                         <tr className="summary-shipping">
                           <td>Livraison :</td>
@@ -140,22 +149,22 @@ const Cart = () => {
                   ) : null}
 
                   {cart.length > 0 && (
-                    <a
-                      href="checkout.html"
+                    <Link
+                      to="/checkout"
                       className="btn btn-outline-primary-2 btn-order btn-block"
                     >
                       PASSER À LA CAISSE
-                    </a>
+                    </Link>
                   )}
                 </div>
 
-                <a
-                  href="category.html"
+                <Link
+                  to="/"
                   className="btn btn-outline-dark-2 btn-block mb-3"
                 >
                   <span>CONTINUER LES ACHATS</span>
                   <i className="icon-refresh"></i>
-                </a>
+                </Link>
               </aside>
             </div>
           </div>

@@ -143,10 +143,22 @@ const DetailProduit = () => {
                     <p>{product.description}</p>
                   </div>
                   {product.couleur.length > 0 && (
-                    <div className="details-filter-row details-row-size">
-                      <label>Color:</label>
-                      {product.couleur.join(", ")}
-                    </div>
+                     <div className="details-filter-row details-row-size">
+                     <label htmlFor="size">Couleur:</label>
+                     <div className="select-custom">
+                       <select name="size" id="size" className="form-control">
+                         <option value="#" defaultValue>
+                           Choisir une couleur 
+                         </option>
+                         {product.couleur.map((couleur, index) => (
+                           <option key={index} value={couleur}>
+                             {couleur} 
+                           </option>
+                         ))}
+
+                       </select>
+                     </div>
+                   </div>
                   )}
 
                   {product.taille.length > 0 && (
@@ -155,13 +167,14 @@ const DetailProduit = () => {
                       <div className="select-custom">
                         <select name="size" id="size" className="form-control">
                           <option value="#" defaultValue>
-                            Select a size
+                            Select a size 
                           </option>
                           {product.taille.map((taille, index) => (
                             <option key={index} value={taille}>
-                              {taille}
+                              {taille} 
                             </option>
                           ))}
+
                         </select>
                       </div>
                     </div>

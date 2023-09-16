@@ -140,6 +140,14 @@ const CommandeDetail = () => {
             ))}{' '}
           </Typography>
         </Box>
+        <Box sx={{ marginBottom: '0.5rem' }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold', color: '#333333' }}>
+            Prix totale avec livraison:
+          </Typography>
+          <Typography variant="body1" sx={{ color: '#666666' }}>
+            {commandeDetails.prix_totale}
+          </Typography>
+        </Box>
 
         <Button variant="outlined" color="error" onClick={() => setDialogOpen(true)}>
           Supprimer la commande

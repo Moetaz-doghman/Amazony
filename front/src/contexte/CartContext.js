@@ -1,12 +1,17 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Créez un contexte initial
 const CartContext = createContext();
 
+const initialCart = localStorage.getItem("shopping-cart") ? JSON.parse(localStorage.getItem("shopping-cart")) : [];
+
 // Créez un fournisseur pour le contexte
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(initialCart);
 
+  useEffect(() => {
+    localStorage.setItem("shopping-cart", JSON.stringify(cart));
+  });
   // Fonction pour ajouter un produit au panier
   const addToCart = (product) => {
     // Vérifiez d'abord si le produit est déjà dans le panier

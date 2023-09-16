@@ -195,6 +195,7 @@ const ListCommande = () => {
             <StyledTableCell>Nom et Prénom</StyledTableCell>
             <StyledTableCell>Ville</StyledTableCell>
             <StyledTableCell>Les produits</StyledTableCell>
+            <StyledTableCell>Prix totale</StyledTableCell>
             <StyledTableCell>Confirmé</StyledTableCell>
             <StyledTableCell>Délivré</StyledTableCell>
             <StyledTableCell>Options</StyledTableCell>
@@ -217,6 +218,7 @@ const ListCommande = () => {
                     </div>
                   ))}
                 </TableCell>
+                <TableCell>{commande.prix_totale}</TableCell>
                 <TableCell>{commande.confirme}</TableCell>
                 <TableCell>{commande.delivre}</TableCell>
                 <TableCell>

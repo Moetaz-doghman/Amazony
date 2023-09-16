@@ -18,6 +18,10 @@ const CommandeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    prix_totale: {
+      type: String,
+      required: true,
+    },
     note: {
       type: String,
     },
