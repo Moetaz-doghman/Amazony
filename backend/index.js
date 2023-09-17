@@ -16,21 +16,12 @@ const app = express();
 /** middlewares */
 app.use(express.json());
 
-// Define a whitelist of allowed origins (your frontend domain)
-const whitelist = ["https://amazony-backoffice.vercel.app"];
-
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: "https://amazony-backoffice.vercel.app", // Replace with your frontend URL
+  credentials: true, // Enable credentials (cookies, HTTP authentication, etc.)
 };
 
 app.use(cors(corsOptions));
-
 
 app.use(morgan("tiny"));
 app.disable("x-powered-by"); // less hackers know about our stack
