@@ -20,6 +20,7 @@ import {
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+axios.defaults.withCredentials = true;
 
 // project import
 import AnimateButton from 'components/@extended/AnimateButton';
