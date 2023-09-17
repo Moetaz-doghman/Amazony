@@ -108,7 +108,7 @@ const AuthenticationCheck = ({ children }) => {
   const token = localStorage.getItem('token');
   useEffect(() => {
     // Make an HTTP request to check authentication
-    fetch('http://localhost:8080/admin/check', {
+    fetch('https://amazony-backend.vercel.app/admin/check', {
       headers: {
         Authorization: `Bearer ${token}`
       }
