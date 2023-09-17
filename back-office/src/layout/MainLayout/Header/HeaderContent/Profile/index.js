@@ -14,7 +14,7 @@ import SettingTab from './SettingTab';
 */
 
 // assets
-import avatar from 'assets/images/users/infoplus.png';
+import avatar from 'assets/images/users/logo.png';
 import { LogoutOutlined } from '@ant-design/icons';
 
 import { useNavigate } from 'react-router-dom';
