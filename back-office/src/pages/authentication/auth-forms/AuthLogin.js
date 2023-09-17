@@ -46,7 +46,7 @@ const AuthLogin = () => {
 
   const handleSubmit = async (values, { setErrors, setStatus, setSubmitting }) => {
     try {
-      const response = await axios.post('http://localhost:8080/admin/login', values); // Make a POST request to your backend login API
+      const response = await axios.post('https://amazony-backend.vercel.app/admin/login', values); // Make a POST request to your backend login API
       const token = response.data.token; // Assuming your backend returns a token upon successful login
 
       // Store the token in local storage or a cookie
