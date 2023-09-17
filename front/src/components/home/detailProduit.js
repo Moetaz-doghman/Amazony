@@ -21,6 +21,7 @@ const DetailProduit = () => {
   const data = {
     name: "Detail",
     url: "",
+    header : "Détails du Produit"
   };
 
   const handleAddToCart = (product) => {
@@ -313,11 +314,8 @@ const DetailProduit = () => {
                 </div>
               </div>
             </div>
-          </div>
-
-          
-              <Suggestions/>
-
+          </div>       
+          <Suggestions/>      
         </div>
       </div>
       <FullScreenImageModal

@@ -1,6 +1,6 @@
 const express = require("express");
 const authAdmin = require("../middleware/authAdmin.js");
-const { addProduit, getAllProduits, deleteProduit, getProduitById, updateProduit, getAllCategories, getAllProduit, getAllCategorie, mostRated, getAllProduitByRating, getAllProduitByDate, getProduitsByCategories, getProduitsByPrice, search } = require("../controllers/produitController.js");
+const { addProduit, getAllProduits, deleteProduit, getProduitById, updateProduit, getAllCategories, getAllProduit, getAllCategorie, mostRated, getAllProduitByRating, getAllProduitByDate, getProduitsByCategories, getProduitsByPrice, search, getRandomProducts } = require("../controllers/produitController.js");
 const router = express.Router();
 
 router.post("/addProduit", authAdmin, addProduit);
@@ -18,6 +18,7 @@ router.get("/getAllProduitByDate" ,getAllProduitByDate);
 router.get("/getProduitsByCategories/:categories" ,getProduitsByCategories);
 router.get("/getProduitsByPrice" ,getProduitsByPrice);
 router.get("/search" ,search);
+router.get("/getRandomProducts" ,getRandomProducts);
 
 
 

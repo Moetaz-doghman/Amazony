@@ -1,112 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import moment from "moment";
+import "moment/locale/fr";
 
 const Suggestions = () => {
+  const [products, setProducts] = useState([]);
+  moment.locale("fr");
+
+
+  useEffect(() => {
+    // Effectuez la requête HTTP pour obtenir les produits au hasard depuis votre backend
+    axios
+      .get("http://localhost:8080/produit/getRandomProducts")
+      .then((response) => {
+        // Mettez à jour l'état avec les produits récupérés
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error(
+          "Erreur lors de la récupération des produits au hasard :",
+          error
+        );
+      });
+  }, []); // Exécutez cette fonction une seule fois lors du montage du composant
+
   return (
     <div>
-      <h2 className="title text-center mb-4">You May Also Like</h2>
+      <h2 className="title text-center mb-2">Suggestions</h2>
+      <div className="row max-col-2">
+        {products.map((product) => (
+          <div className="col-md-6" key={product._id}>
+            <article className="entry entry-grid">
+              <figure className="entry-media">
+                <Link to={`/${product._id}`}>
+                  <img src={product.images[0].secure_url} alt=" desc" />
+                </Link>
+              </figure>
 
-      <div
-        className="owl-carousel owl-simple carousel-equal-height carousel-with-shadow"
-        data-toggle="owl"
-        data-owl-options='{
-          "nav": false, 
-          "dots": true,
-          "margin": 20,
-          "loop": false,
-          "responsive": {
-            "0": {
-              "items": 1
-            },
-            "480": {
-              "items": 2
-            },
-            "768": {
-              "items": 3
-            },
-            "992": {
-              "items": 4
-            },
-            "1200": {
-              "items": 4,
-              "nav": true,
-              "dots": false
-            }
-          }
-        }'
-      >
-        <div className="product product-7 text-center">
-          <figure className="product-media">
-            <span className="product-label label-new">New</span>
-            <a href="product.html">
-            <img
-                          id="product-zoom"
-                          src="assets/images/products/single/1.jpg"
-                          data-zoom-image="assets/images/products/single/1-big.jpg"
-                          alt="product "
-                        />
-            </a>
+              <div className="entry-body text-center">
+                <div className="entry-meta">
+                  <Link to={`/${product._id}`}>{moment(product.createdAt).format("DD MMMM YYYY")}</Link>
+                </div>
+                <h2 className="entry-title">
+                  <Link to={`/${product._id}`} >{product.titre}.</Link>
+                </h2>
 
-            <div className="product-action-vertical">
-              <a href="#0" className="btn-product-icon btn-wishlist btn-expandable">
-                <span>add to wishlist</span>
-              </a>
-              <a
-                href="popup/quickView.html"
-                className="btn-product-icon btn-quickview"
-                title="Quick view"
-              >
-                <span>Quick view</span>
-              </a>
-              <a href="#0" className="btn-product-icon btn-compare" title="Compare">
-                <span>Compare</span>
-              </a>
-            </div>
-            <div className="product-action">
-              <a href="#0" className="btn-product btn-cart">
-                <span>add to cart</span>
-              </a>
-            </div>
-          </figure>
-
-          <div className="product-body">
-            <div className="product-cat">
-              <a href="#0">Women</a>
-            </div>
-            <h3 className="product-title">
-              <a href="product.html">
-                Brown paperbag waist <br />
-                pencil skirt
-              </a>
-            </h3>
-            <div className="product-price">$60.00</div>
-            <div className="ratings-container">
-              <div className="ratings">
-                <div className="ratings-val" style={{ width: "20%" }}></div>
+                <div className="entry-content">
+                  <Link to={`/${product._id}`} className="read-more">
+                    Afficher le produit
+                  </Link>
+                </div>
               </div>
-              <span className="ratings-text">( 2 Reviews )</span>
-            </div>
-            <div className="product-nav product-nav-thumbs">
-              <a href="#0" className="active">
-                <img
-                  src="assets/images/products/product-4-thumb.jpg"
-                  alt="product desc"
-                />
-              </a>
-              <a href="#0">
-                <img
-                  src="assets/images/products/product-4-2-thumb.jpg"
-                  alt="product desc"
-                />
-              </a>
-              <a href="#0">
-                <img
-                  src="assets/images/products/product-4-3-thumb.jpg"
-                  alt="product desc"
-                />
-              </a>
-            </div>
+            </article>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

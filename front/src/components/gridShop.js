@@ -14,7 +14,7 @@ const gridShop = (props) => {
       <div className="page-header text-center" style={pageHeaderStyle}>
         <div className="container">
           <h1 className="page-title">
-            Grid 3 Columns<span>Shop</span>
+          {data.header}<span>Amazony</span>
           </h1>
         </div>
       </div>

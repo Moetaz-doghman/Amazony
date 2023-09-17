@@ -10,6 +10,7 @@ const Checkout = () => {
   const data = {
     name: "Commander",
     url: "/checkout",
+    header : "Validation de la commande"
   };
 
   const { cart } = useCart();

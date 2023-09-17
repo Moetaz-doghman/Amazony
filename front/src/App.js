@@ -21,7 +21,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/sug" element={<Suggestions />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/xxxx" element={<NotFound />} />
         </Routes>
         <Footer />
       </CartProvider>

@@ -359,3 +359,35 @@ exports.search = async (req, res) => {
     res.status(500).json({ error: "Erreur lors de la recherche de produits" });
   }
 };
+
+// Fonction pour obtenir 4 produits au hasard
+exports.getRandomProducts = async (req, res) => {
+  try {
+    // Récupérez tous les produits depuis la base de données
+    const allProducts = await Produit.find();
+    // Si le nombre total de produits est inférieur ou égal à 2, renvoyez-les tous
+    if (allProducts.length <= 2) {
+      return res.status(200).json(allProducts);
+    }
+
+    // Mélangez la liste des produits de manière aléatoire
+    const shuffledProducts = allProducts.sort(() => 0.5 - Math.random());
+
+    // Sélectionnez les 2 premiers produits mélangés
+    const randomProducts = shuffledProducts.slice(0, 2);
+
+    // Envoyez les produits en tant que réponse JSON
+    res.status(200).json(randomProducts);
+  } catch (error) {
+    console.error(
+      "Erreur lors de la récupération des produits au hasard :",
+      error
+    );
+    res
+      .status(500)
+      .json({
+        message:
+          "Une erreur s'est produite lors de la récupération des produits au hasard.",
+      });
+  }
+};

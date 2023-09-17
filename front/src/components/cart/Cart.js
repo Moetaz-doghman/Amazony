@@ -1,6 +1,7 @@
 import React from "react";
 import { useCart } from "../../contexte/CartContext";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const Cart = () => {
   const { cart, decreaseFromCart, removeFromCart, addToCart } = useCart();
@@ -21,6 +22,7 @@ const Cart = () => {
 
   return (
     <div>
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="page-content">
         <div className="cart">
           <div className="container">
@@ -42,8 +44,7 @@ const Cart = () => {
 
                     <tbody>
                       {cart.map((product) => (
-                        <>
-                          <tr key={product.id}>
+                          <tr key={product._id}>
                             <td className="product-col">
                               <div className="product">
                                 <figure className="product-media">
@@ -57,7 +58,7 @@ const Cart = () => {
                                 </figure>
 
                                 <h3 className="product-title">
-                                {product.titre}
+                                  {product.titre}
                                 </h3>
                               </div>
                             </td>
@@ -74,7 +75,31 @@ const Cart = () => {
                                 <input
                                   className="small-input"
                                   value={product.quantite_demande}
+                                  onChange={(e) => {
+                                    const newQuantity = parseInt(
+                                      e.target.value,
+                                      10
+                                    ); // Convertir en nombre
+                                    if (
+                                      !isNaN(newQuantity) &&
+                                      newQuantity > 0
+                                    ) {
+                                      // Vérifier si c'est un nombre valide et supérieur à zéro
+                                      if (
+                                        newQuantity >
+                                        product.quantite_disponible
+                                      ) {
+                                        // Vous pouvez également ajouter une validation ici
+                                        toast.error(
+                                          "La quantité demandée dépasse la quantité disponible."
+                                        );
+                                      } else {
+                                        addToCart(product, newQuantity); // Appeler addToCart avec la nouvelle quantité
+                                      }
+                                    }
+                                  }}
                                 />
+
                                 <button
                                   onClick={() => addToCart(product)} // Augmenter la quantité
                                   className="quantity-btn plus"
@@ -96,7 +121,6 @@ const Cart = () => {
                               </button>
                             </td>
                           </tr>
-                        </>
                       ))}
                     </tbody>
                   </table>

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useCart } from "../contexte/CartContext";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  const { cart , removeFromCart } = useCart();
+  const { cart, removeFromCart } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const cartDropdownRef = useRef(null);
 
   // Fonction pour calculer le prix total du panier
   const calculateTotalPrice = () => {
@@ -11,6 +13,40 @@ const Header = () => {
       return total + product.quantite_demande * product.prix;
     }, 0);
   };
+
+  // Gestionnaire d'événement pour ouvrir le panier
+  const openCart = () => {
+    setIsCartOpen(true);
+  };
+
+  // Gestionnaire d'événement pour fermer le panier
+  const closeCart = () => {
+    setIsCartOpen(false);
+  };
+
+  // Gestionnaire d'événement pour fermer le panier lorsque l'utilisateur clique à l'extérieur
+  const handleClickOutside = (event) => {
+    if (
+      cartDropdownRef.current &&
+      !cartDropdownRef.current.contains(event.target)
+    ) {
+      setIsCartOpen(false);
+    }
+  };
+
+  // Ajoutez un écouteur d'événement de clic lors de l'ouverture du panier
+  useEffect(() => {
+    if (isCartOpen) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isCartOpen]);
+
   return (
     <div>
       <header className="header">
@@ -85,7 +121,10 @@ const Header = () => {
                 </form>
               </div>
 
-              <div className="dropdown cart-dropdown">
+              <div
+                className={`dropdown cart-dropdown ${isCartOpen ? "show" : ""}`}
+                ref={cartDropdownRef}
+              >
                 <a
                   href="ddd"
                   className="dropdown-toggle"
@@ -94,6 +133,7 @@ const Header = () => {
                   aria-haspopup="true"
                   aria-expanded="false"
                   data-display="static"
+                  onClick={isCartOpen ? closeCart : openCart} // Ouvrir/fermer le panier au clic
                 >
                   <i className="icon-shopping-cart"></i>
                   <span className="cart-count">{cart.length}</span>
@@ -123,12 +163,15 @@ const Header = () => {
                             </div>
 
                             <figure className="product-image-container">
-                              <a href="product.html" className="product-image">
+                              <Link
+                                to={`/${product._id}`}
+                                className="product-image"
+                              >
                                 <img
                                   src={product.images[0].secure_url}
                                   alt="product"
                                 />
-                              </a>
+                              </Link>
                             </figure>
                             <button
                               className="btn-remove"
@@ -141,7 +184,7 @@ const Header = () => {
                         ))}
                       </div>
 
-                      <div className="dropdown-cart-total"> 
+                      <div className="dropdown-cart-total">
                         <span>Total</span>
 
                         <span className="cart-total-price">
@@ -152,15 +195,15 @@ const Header = () => {
 
                       <div className="dropdown-cart-action">
                         <Link to="/cart" className="btn btn-primary">
-                          View Cart
+                          Voir le panier
                         </Link>
-                        <a
-                          href="checkout.html"
+                        <Link
+                          to="/checkout"
                           className="btn btn-outline-primary-2"
                         >
-                          <span>Checkout</span>
+                          <span>Acheter</span>
                           <i className="icon-long-arrow-right"></i>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   )}

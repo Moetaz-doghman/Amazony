@@ -20,6 +20,7 @@ const Home = () => {
   const data = {
     name: "",
     url: "/",
+    header: "Nos Produits",
   };
   const [selectedPriceRange, setSelectedPriceRange] = useState([0, 3000]);
 
@@ -135,17 +136,17 @@ const Home = () => {
                 <div className="toolbox">
                   <div className="toolbox-left">
                     <div className="toolbox-info">
-                      Showing{" "}
+                      Affichage{" "}
                       <span>
                         {Math.min(totalProducts, currentPage * itemsPerPage)}
                       </span>{" "}
-                      of {totalProducts} Products
+                      de {totalProducts} Produits
                     </div>
                   </div>
 
                   <div className="toolbox-right">
                     <div className="toolbox-sort">
-                      <label htmlFor="sortby">Sort by:</label>
+                      <label htmlFor="sortby">Trier par :</label>
                       <div className="select-custom">
                         <select
                           name="sortby"
@@ -154,7 +155,7 @@ const Home = () => {
                           value={sortOption}
                           onChange={handleSortChange}
                         >
-                          <option value="rating">Most Rated</option>
+                          <option value="rating">Les mieux notés</option>
                           <option value="date">Date</option>
                         </select>
                       </div>
@@ -188,17 +189,17 @@ const Home = () => {
                             <figure className="product-media">
                               {product.quantite === "0" ? (
                                 <span className="product-label label-out">
-                                  Out of Stock
+                                  En rupture de stock
                                 </span>
                               ) : (
                                 <span className="product-label label-new">
-                                  New
+                                  Nouveau
                                 </span>
                               )}{" "}
                               <Link to={`/${product._id}`}>
                                 <img
                                   src={product.images[0].secure_url}
-                                  alt="Product im"
+                                  alt=" du produit"
                                   className="product-image"
                                   style={{ height: "280px", width: "280px" }}
                                 />
@@ -207,9 +208,9 @@ const Home = () => {
                                 <Link
                                   to={`/${product._id}`}
                                   className="btn-product-icon btn-quickview"
-                                  title="Quick view"
+                                  title="Aperçu rapide"
                                 >
-                                  <span>Quick view</span>
+                                  <span>Aperçu rapide</span>
                                 </Link>
                               </div>
                               <div className="product-action">
@@ -219,7 +220,7 @@ const Home = () => {
                                     onClick={() => handleAddToCart(product)}
                                     className="btn-product btn-cart"
                                   >
-                                    <span>add to cart</span>
+                                    <span>Ajouter au panier</span>
                                   </a>
                                 )}
                               </div>
@@ -251,7 +252,7 @@ const Home = () => {
                                   ></div>
                                 </div>
                                 <span className="ratings-text">
-                                  (Moyenne des avis )
+                                  (Moyenne des avis)
                                 </span>
                               </div>
 
@@ -264,7 +265,7 @@ const Home = () => {
                                   >
                                     <img
                                       src={image.secure_url}
-                                      alt={`Ima ${index}`}
+                                      alt={`${index}`}
                                       style={{
                                         width: "100%",
                                         height: "auto",
@@ -282,7 +283,7 @@ const Home = () => {
                   )}
                 </div>
 
-                <nav aria-label="Page navigation">
+                <nav aria-label="Navigation de la page">
                   <ul className="pagination justify-content-center">
                     <li
                       className={`page-item ${
@@ -337,13 +338,13 @@ const Home = () => {
               <aside className="col-lg-3 order-lg-first">
                 <div className="sidebar sidebar-shop">
                   <div className="widget widget-clean">
-                    <label>Filters:</label>
+                    <label>Filtres :</label>
                     <a
-                    href="#0"
+                      href="#0"
                       className="sidebar-filter-clear"
                       onClick={handleClearAll}
                     >
-                      Clean All
+                      Réinitialiser
                     </a>
                   </div>
 
@@ -356,7 +357,7 @@ const Home = () => {
                         aria-expanded="true"
                         aria-controls="widget-1"
                       >
-                        Category
+                        Catégorie
                       </a>
                     </h3>
                     <div className="collapse show" id="widget-1">
@@ -402,7 +403,7 @@ const Home = () => {
                         aria-expanded="true"
                         aria-controls="widget-5"
                       >
-                        Price
+                        Prix
                       </a>
                     </h3>
 
@@ -410,7 +411,7 @@ const Home = () => {
                       <div className="widget-body">
                         <div className="filter-price">
                           <div className="filter-price-text">
-                            Price Range: {selectedPriceRange[0]}DT -{" "}
+                            Plage de prix : {selectedPriceRange[0]}DT -{" "}
                             {selectedPriceRange[1]}DT
                           </div>
                           <Slider
