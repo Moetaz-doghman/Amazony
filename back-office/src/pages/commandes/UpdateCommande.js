@@ -62,7 +62,7 @@ const UpdateCommandeForm = () => {
   useEffect(() => {
     const fetchCommandeDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/commande/commandes/${commandeId}`, {
+        const response = await axios.get(`https://amazony-backend.vercel.app/commande/commandes/${commandeId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -80,7 +80,7 @@ const UpdateCommandeForm = () => {
 
   const handleSubmit = (values) => {
     axios
-      .put(`http://localhost:8080/commande/commandes/${commandeId}`, values, {
+      .put(`https://amazony-backend.vercel.app/commande/commandes/${commandeId}`, values, {
         headers: {
           Authorization: `Bearer ${token}`
         }

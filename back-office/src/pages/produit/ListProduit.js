@@ -68,7 +68,7 @@ const ListProduit = () => {
 
   const fetchCategories = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8080/produit/getAllCategories', {
+      const response = await axios.get('https://amazony-backend.vercel.app/produit/getAllCategories', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -82,7 +82,7 @@ const ListProduit = () => {
   const fetchProduits = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('http://localhost:8080/produit/getAllProduits', {
+      const response = await axios.get('https://amazony-backend.vercel.app/produit/getAllProduits', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -109,7 +109,7 @@ const ListProduit = () => {
 
   const handleConfirmDeleteProduit = () => {
     axios
-      .delete(`http://localhost:8080/produit/deleteProduit/${selectedProduit}`, {
+      .delete(`https://amazony-backend.vercel.app/produit/deleteProduit/${selectedProduit}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -33,7 +33,7 @@ const AddUserForm = () => {
 
   const handleSubmitIntern = (values) => {
     axios
-      .post('http://localhost:8080/admin/registerIntern', values, {
+      .post('https://amazony-backend.vercel.app/admin/registerIntern', values, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -52,7 +52,7 @@ const AddUserForm = () => {
   const handleSubmitTeacher = (values) => {
     console.log(values);
     axios
-      .post('http://localhost:8080/admin/registerTeacher', values, {
+      .post('https://amazony-backend.vercel.app/admin/registerTeacher', values, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -70,7 +70,7 @@ const AddUserForm = () => {
   };
   const handleSubmitCompany = (values) => {
     axios
-      .post('http://localhost:8080/admin/registerCompany', values, {
+      .post('https://amazony-backend.vercel.app/admin/registerCompany', values, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -88,7 +88,7 @@ const AddUserForm = () => {
   };
   const handleSubmitClient = (values) => {
     axios
-      .post('http://localhost:8080/admin/register', values, {
+      .post('https://amazony-backend.vercel.app/admin/register', values, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -106,7 +106,7 @@ const AddUserForm = () => {
   };
   const handleSubmitParent = (values) => {
     axios
-      .post('http://localhost:8080/admin/registerParent', values, {
+      .post('https://amazony-backend.vercel.app/admin/registerParent', values, {
         headers: {
           Authorization: `Bearer ${token}`
         }

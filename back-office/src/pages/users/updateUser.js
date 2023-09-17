@@ -37,7 +37,7 @@ const UpdateUserForm = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/admin/user/${userId}`, {
+        const response = await axios.get(`https://amazony-backend.vercel.app/admin/user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -56,7 +56,7 @@ const UpdateUserForm = () => {
   useEffect(() => {
     const fetchFormations = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/admin/formations/getAll`, {
+        const response = await axios.get(`https://amazony-backend.vercel.app/admin/formations/getAll`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -79,7 +79,7 @@ const UpdateUserForm = () => {
       ...values.additionalData
     };
     axios
-      .put(`http://localhost:8080/admin/updateIntern/${userId}`, data, {
+      .put(`https://amazony-backend.vercel.app/admin/updateIntern/${userId}`, data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -99,7 +99,7 @@ const UpdateUserForm = () => {
       ...values.additionalData
     };
     axios
-      .put(`http://localhost:8080/admin/updateTeacher/${userId}`, data, {
+      .put(`https://amazony-backend.vercel.app/admin/updateTeacher/${userId}`, data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -118,7 +118,7 @@ const UpdateUserForm = () => {
       ...values.additionalData
     };
     axios
-      .put(`http://localhost:8080/admin/updateCompany/${userId}`, data, {
+      .put(`https://amazony-backend.vercel.app/admin/updateCompany/${userId}`, data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -137,7 +137,7 @@ const UpdateUserForm = () => {
       ...values.user
     };
     axios
-      .put(`http://localhost:8080/admin/update/${userId}`, data, {
+      .put(`https://amazony-backend.vercel.app/admin/update/${userId}`, data, {
         headers: {
           Authorization: `Bearer ${token}`
         }

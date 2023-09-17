@@ -87,7 +87,7 @@ const UsersList = () => {
                 continue;
             }
 
-            const response = await axios.post(`http://localhost:8080/admin/${endpoint}`, rowWithoutRowNum, {
+            const response = await axios.post(`https://amazony-backend.vercel.app/admin/${endpoint}`, rowWithoutRowNum, {
               headers: {
                 Authorization: `Bearer ${token}`
               }
@@ -121,7 +121,7 @@ const UsersList = () => {
   const fetchUsers = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('http://localhost:8080/admin/getUsersList', {
+      const response = await axios.get('https://amazony-backend.vercel.app/admin/getUsersList', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -162,7 +162,7 @@ const UsersList = () => {
   const handleDelete = (id) => {
     if (window.confirm(`Are you sure you want to delete this user?`)) {
       axios
-        .delete(`http://localhost:8080/admin/deleteUser/${id}`, {
+        .delete(`https://amazony-backend.vercel.app/admin/deleteUser/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -187,7 +187,7 @@ const UsersList = () => {
     if (window.confirm(`Êtes-vous sûr de vouloir supprimer ces ${selectedUsers.length} utilisateurs?`)) {
       const userIdsToDelete = selectedUsers.map((user) => user._id);
       axios
-        .delete(`http://localhost:8080/admin/deleteMany`, {
+        .delete(`https://amazony-backend.vercel.app/admin/deleteMany`, {
           data: { userIds: userIdsToDelete },
           headers: {
             Authorization: `Bearer ${token}`

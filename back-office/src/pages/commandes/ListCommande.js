@@ -69,7 +69,7 @@ const ListCommande = () => {
     const fetchCommandes = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('http://localhost:8080/commande/commandes', {
+        const response = await axios.get('https://amazony-backend.vercel.app/commande/commandes', {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -94,7 +94,7 @@ const ListCommande = () => {
 
   const handleConfirmDeleteCommande = () => {
     axios
-      .delete(`http://localhost:8080/commande/commandes/${selectedCommande}`, {
+      .delete(`https://amazony-backend.vercel.app/commande/commandes/${selectedCommande}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

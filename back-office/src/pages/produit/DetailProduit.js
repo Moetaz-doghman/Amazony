@@ -32,7 +32,7 @@ const DetailProduit = () => {
   useEffect(() => {
     const fetchProduitDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/produit/getProduitById/${produitId}`, {
+        const response = await axios.get(`https://amazony-backend.vercel.app/produit/getProduitById/${produitId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -52,7 +52,7 @@ const DetailProduit = () => {
     const fetchComments = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`http://localhost:8080/comment/comments/${produitId}`);
+        const response = await axios.get(`https://amazony-backend.vercel.app/comment/comments/${produitId}`);
         setComments(response.data);
         console.log(response.data);
         setIsLoading(false);
@@ -69,7 +69,7 @@ const DetailProduit = () => {
 
   const handleConfirmDeleteProduit = () => {
     axios
-      .delete(`http://localhost:8080/produit/deleteProduit/${produitId}`, {
+      .delete(`https://amazony-backend.vercel.app/produit/deleteProduit/${produitId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -100,7 +100,7 @@ const DetailProduit = () => {
   const handleDeleteComment = (commentId) => {
     if (window.confirm('Are you sure you want to delete this comment?')) {
       axios
-        .delete(`http://localhost:8080/comment/comments/${commentId}`)
+        .delete(`https://amazony-backend.vercel.app/comment/comments/${commentId}`)
         .then(() => {
           setComments(comments.filter((comment) => comment._id !== commentId)); // Utilisez eventId ici
         })

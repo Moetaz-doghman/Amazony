@@ -94,7 +94,7 @@ const AddProduit = () => {
       const uploadedImageUrls = await Promise.all(uploadPromises);
       produitData.images = uploadedImageUrls;
 
-      await axios.post('http://localhost:8080/produit/addProduit', produitData, {
+      await axios.post('https://amazony-backend.vercel.app/produit/addProduit', produitData, {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -27,7 +27,7 @@ const UserDetailsPage = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/admin/user/${userId}`, {
+        const response = await axios.get(`https://amazony-backend.vercel.app/admin/user/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -58,7 +58,7 @@ const UserDetailsPage = () => {
   const handleUnSetAdmin = (userId) => {
     axios
       .put(
-        `http://localhost:8080/admin/teacher/unsetAdmin/${userId}`,
+        `https://amazony-backend.vercel.app/admin/teacher/unsetAdmin/${userId}`,
         {},
         {
           headers: {
@@ -77,7 +77,7 @@ const UserDetailsPage = () => {
   const handleSetAdmin = (userId) => {
     axios
       .put(
-        `http://localhost:8080/admin/teacher/setAdmin/${userId}`,
+        `https://amazony-backend.vercel.app/admin/teacher/setAdmin/${userId}`,
         {},
         {
           headers: {

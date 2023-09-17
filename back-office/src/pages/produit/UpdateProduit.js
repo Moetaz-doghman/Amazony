@@ -41,7 +41,7 @@ const UpdateProduit = () => {
   useEffect(() => {
     const fetchProduitDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/produit/getProduitById/${produitId}`, {
+        const response = await axios.get(`https://amazony-backend.vercel.app/produit/getProduitById/${produitId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -117,7 +117,7 @@ const UpdateProduit = () => {
       const uploadedImageUrls = await Promise.all(uploadPromises);
       produitData.images = uploadedImageUrls;
 
-      await axios.put(`http://localhost:8080/produit/updateProduit/${produitId}`, produitData, {
+      await axios.put(`https://amazony-backend.vercel.app/produit/updateProduit/${produitId}`, produitData, {
         headers: {
           Authorization: `Bearer ${token}`
         }

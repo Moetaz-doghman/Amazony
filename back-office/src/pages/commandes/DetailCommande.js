@@ -16,7 +16,7 @@ const CommandeDetail = () => {
   useEffect(() => {
     const fetchCommandeDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/commande/commandes/${commandeId}`, {
+        const response = await axios.get(`https://amazony-backend.vercel.app/commande/commandes/${commandeId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -34,7 +34,7 @@ const CommandeDetail = () => {
 
   const handleConfirmDeleteCommande = () => {
     axios
-      .delete(`http://localhost:8080/commande/commandes/${commandeId}`, {
+      .delete(`https://amazony-backend.vercel.app/commande/commandes/${commandeId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
