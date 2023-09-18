@@ -3,6 +3,7 @@ import axios from "axios";
 import ReactStars from "react-rating-stars-component";
 import "./style.css";
 import toast, { Toaster } from "react-hot-toast";
+axios.defaults.withCredentials = true;
 
 const Comments = (props) => {
   const { itemId } = props; // Extract the itemId from props

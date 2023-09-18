@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/fr";
+axios.defaults.withCredentials = true;
 
 const Suggestions = () => {
   const [products, setProducts] = useState([]);

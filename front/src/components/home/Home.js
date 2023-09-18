@@ -6,6 +6,7 @@ import { useCart } from "../../contexte/CartContext";
 import toast, { Toaster } from "react-hot-toast";
 import Slider from "react-slider";
 import "./home.css";
+axios.defaults.withCredentials = true;
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);

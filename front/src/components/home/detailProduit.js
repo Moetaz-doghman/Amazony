@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import GridShop from "../gridShop";
 import Comments from "../comments/Comments";
 import Suggestions from "./Suggestions";
+axios.defaults.withCredentials = true;
 
 const DetailProduit = () => {
   // Utilisez useParams pour obtenir l'ID du produit à partir de l'URL

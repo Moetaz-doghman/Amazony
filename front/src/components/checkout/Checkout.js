@@ -4,6 +4,7 @@ import { useCart } from "../../contexte/CartContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+axios.defaults.withCredentials = true;
 
 const Checkout = () => {
   const navigate = useNavigate();
