@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useParams } from 'react-router';
+axios.defaults.withCredentials = true;
 
 const CustomButton = styled(Button)(() => ({
   position: 'absolute',

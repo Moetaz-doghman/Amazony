@@ -8,6 +8,7 @@ import ReactStars from 'react-rating-stars-component';
 import { Table, TableHead, TableBody, TableRow, TableCell, IconButton } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { styled } from '@mui/system';
+axios.defaults.withCredentials = true;
 
 const StyledTable = styled(Table)({
   minWidth: 500

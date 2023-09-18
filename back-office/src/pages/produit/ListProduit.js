@@ -22,6 +22,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { Box } from '@mui/system';
+axios.defaults.withCredentials = true;
+
 
 const StyledTable = styled(Table)({
   minWidth: 500

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const StyledForm = styled(Form)`
   display: flex;
