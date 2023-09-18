@@ -84,11 +84,22 @@ const AddProduit = () => {
         images: []
       };
 
+      const axiosConfig = {
+        withCredentials: true, // Inclure les informations d'authentification (cookies)
+        headers: {
+          'Content-Type': 'application/json' // Assurez-vous que le type de contenu est correct
+        }
+      };
+
       const uploadPromises = produitImages.map(async (image) => {
-        const response = await axios.post('https://api.cloudinary.com/v1_1/dotvzhxdz/image/upload', {
-          file: image,
-          upload_preset: 'InfoPlus'
-        });
+        const response = await axios.post(
+          'https://api.cloudinary.com/v1_1/dotvzhxdz/image/upload',
+          {
+            file: image,
+            upload_preset: 'InfoPlus'
+          },
+          axiosConfig
+        );
         return response.data.secure_url;
       });
 
@@ -207,7 +218,7 @@ const AddProduit = () => {
                 )}
               </Field>
 
-              <input type="file" id="images" name="images" multiple accept="image/*" onChange={onImageInputChange}  />
+              <input type="file" id="images" name="images" multiple accept="image/*" onChange={onImageInputChange} />
 
               <Button type="submit" variant="contained" color="primary">
                 {isLoading ? 'Chargement...' : 'Enregistrer'}
