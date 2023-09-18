@@ -207,7 +207,7 @@ const AddProduit = () => {
                 )}
               </Field>
 
-              <input type="file" id="images" name="images" multiple accept="image/*" onChange={onImageInputChange} required />
+              <input type="file" id="images" name="images" multiple accept="image/*" onChange={onImageInputChange}  />
 
               <Button type="submit" variant="contained" color="primary">
                 {isLoading ? 'Chargement...' : 'Enregistrer'}
