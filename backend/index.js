@@ -22,7 +22,7 @@ app.use(express.json());
 
 app.use(cors(
   {
-      origin: ["https://amazony-backend.vercel.app"],
+      origin: ["https://amazony-backoffice.vercel.app"],
       methods: ["POST", "GET"],
       credentials: true
   }
