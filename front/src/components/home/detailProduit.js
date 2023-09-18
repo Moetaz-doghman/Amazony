@@ -44,7 +44,7 @@ const DetailProduit = () => {
     async function fetchProduct() {
       try {
         const response = await axios.get(
-          `http://localhost:8080/produit/getProduitsById/${produitId}`
+          `https://amazony-backend.vercel.app/produit/getProduitsById/${produitId}`
         );
         setProduct(response.data);
         if (response.data.images.length > 0) {

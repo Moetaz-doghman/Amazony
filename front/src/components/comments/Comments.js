@@ -20,7 +20,7 @@ const Comments = (props) => {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:8080/comment/comments/${itemId}`
+          `https://amazony-backend.vercel.app/comment/comments/${itemId}`
         );
         setComments(response.data);
       } catch (error) {
@@ -68,7 +68,7 @@ const Comments = (props) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/comment/comments",
+        "https://amazony-backend.vercel.app/comment/comments",
         newCommentData
       );
 
@@ -77,7 +77,7 @@ const Comments = (props) => {
       // Réinitialisez les champs du formulaire
       setComment("");
       setRating(5);
-      axios.post("http://localhost:8080/produit/mostRated");
+      axios.post("https://amazony-backend.vercel.app/produit/mostRated");
 
     } catch (error) {
       console.error("Erreur lors de l'ajout du commentaire :", error);

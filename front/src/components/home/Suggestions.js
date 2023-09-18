@@ -12,7 +12,7 @@ const Suggestions = () => {
   useEffect(() => {
     // Effectuez la requête HTTP pour obtenir les produits au hasard depuis votre backend
     axios
-      .get("http://localhost:8080/produit/getRandomProducts")
+      .get("https://amazony-backend.vercel.app/produit/getRandomProducts")
       .then((response) => {
         // Mettez à jour l'état avec les produits récupérés
         setProducts(response.data);

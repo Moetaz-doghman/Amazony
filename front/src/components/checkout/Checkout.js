@@ -94,7 +94,7 @@ const Checkout = () => {
 
       try {
         await toast.promise(
-          axios.post("http://localhost:8080/commande/commandes", requestBody),
+          axios.post("https://amazony-backend.vercel.app/commande/commandes", requestBody),
           {
             loading: "Enregistrement en cours...",
             success: <b>Commande validé!</b>,

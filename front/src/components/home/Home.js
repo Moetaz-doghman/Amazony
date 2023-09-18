@@ -34,7 +34,7 @@ const Home = () => {
 
     axios
       .get(
-        `http://localhost:8080/produit/getProduitsByPrice?minPrice=${minPrice}&maxPrice=${maxPrice}`
+        `https://amazony-backend.vercel.app/produit/getProduitsByPrice?minPrice=${minPrice}&maxPrice=${maxPrice}`
       )
       .then((response) => {
         setProducts(response.data);
@@ -70,16 +70,16 @@ const Home = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    let apiUrl = "http://localhost:8080/produit/getAllProduit";
+    let apiUrl = "https://amazony-backend.vercel.app/produit/getAllProduit";
 
     if (sortOption === "rating") {
-      apiUrl = "http://localhost:8080/produit/getAllProduitByRating";
+      apiUrl = "https://amazony-backend.vercel.app/produit/getAllProduitByRating";
     } else if (sortOption === "date") {
-      apiUrl = "http://localhost:8080/produit/getAllProduitByDate";
+      apiUrl = "https://amazony-backend.vercel.app/produit/getAllProduitByDate";
     }
 
     if (selectedCategories.length > 0) {
-      apiUrl = `http://localhost:8080/produit/getProduitsByCategories/${selectedCategories.join(
+      apiUrl = `https://amazony-backend.vercel.app/produit/getProduitsByCategories/${selectedCategories.join(
         ","
       )}`;
     }
@@ -106,7 +106,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/produit/getAllCategorie")
+      .get("https://amazony-backend.vercel.app/produit/getAllCategorie")
       .then((response) => {
         setCategories(response.data);
         setIsLoading(false);
